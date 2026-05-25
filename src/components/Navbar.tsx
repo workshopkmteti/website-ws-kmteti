@@ -1,7 +1,5 @@
-"use client";
-
+import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 
 const navLinks = [
   { label: "About Us", href: "#about" },
@@ -10,66 +8,40 @@ const navLinks = [
 ] as const;
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-ws-bg)]/80 backdrop-blur-md border-b border-[var(--color-ws-purple-border)]">
+    <header className="fixed inset-x-0 top-4 z-50 px-3 sm:px-6">
       <nav
-        className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between"
+        className="mx-auto flex h-12 max-w-3xl items-center justify-between rounded-full border border-(--color-ws-purple-border) bg-[rgba(17,15,46,0.92)] px-5 shadow-[0_0_30px_rgba(124,58,237,0.2)] backdrop-blur-xl"
         aria-label="Main navigation"
       >
         <Link
           href="/"
-          className="flex items-center gap-2 text-white font-bold text-lg tracking-tight"
+          className="flex shrink-0 items-center transition-opacity hover:opacity-80"
+          aria-label="Workshop KMTETI"
         >
-          <span className="text-[var(--color-ws-purple-light)]">Workshop</span>
-          <span className="text-xs font-normal text-[var(--color-ws-text-muted)] leading-none mt-0.5">
-            KMTETI
-          </span>
+          <Image
+            src="/logows.svg"
+            alt="Workshop KMTETI"
+            width={173}
+            height={68}
+            priority
+            className="h-7 w-auto"
+          />
         </Link>
 
-        <ul className="hidden md:flex items-center gap-8" role="list">
+        <ul className="flex items-center gap-4 sm:gap-6" role="list">
           {navLinks.map(({ label, href }) => (
             <li key={label}>
               <Link
                 href={href}
-                className="text-sm text-[var(--color-ws-text-muted)] hover:text-white transition-colors duration-200"
+                className="text-[11px] font-medium tracking-[0.14em] text-(--color-ws-text-muted) transition-colors duration-200 hover:text-white"
               >
                 {label}
               </Link>
             </li>
           ))}
         </ul>
-
-        <button
-          className="md:hidden text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--color-ws-purple-light)]"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((prev) => !prev)}
-        >
-          <span className="block w-5 h-0.5 bg-current mb-1" />
-          <span className="block w-5 h-0.5 bg-current mb-1" />
-          <span className="block w-5 h-0.5 bg-current" />
-        </button>
       </nav>
-
-      {menuOpen && (
-        <div className="md:hidden bg-[var(--color-ws-bg-card)] border-t border-[var(--color-ws-purple-border)]">
-          <ul className="flex flex-col px-6 py-4 gap-4" role="list">
-            {navLinks.map(({ label, href }) => (
-              <li key={label}>
-                <Link
-                  href={href}
-                  className="text-sm text-[var(--color-ws-text-muted)] hover:text-white transition-colors duration-200"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </header>
   );
 }
