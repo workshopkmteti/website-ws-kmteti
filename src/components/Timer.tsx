@@ -34,23 +34,23 @@ export default function Timer() {
   ];
 
   return (
-    <section className="flex flex-col items-center gap-8 px-6 py-24 text-center">
-      <h2 className="font-sans text-3xl font-semibold text-[#ebe6f0] sm:text-5xl">
+    <section className="flex flex-col items-center gap-8 px-6 py-20 text-center">
+      <h2 className="font-sans text-2xl font-semibold text-[#ebe6f0] sm:text-4xl">
         DAFTAR [EVENT] SEBELUM DITUTUP
       </h2>
       <div className="flex items-start justify-center gap-1 sm:gap-2">
         {units.map((unit, i) => (
           <div key={unit.label} className="flex items-center">
-            <div className="flex w-16 flex-col items-center justify-center sm:w-[140px]">
-              <p className="font-sans text-5xl font-bold tracking-[0.05em] text-[#ebe6f0] sm:text-8xl">
+            <div className="flex w-14 flex-col items-center justify-center sm:w-24">
+              <p className="font-sans text-3xl font-bold tracking-[0.05em] text-[#ebe6f0] sm:text-6xl">
                 {unit.value}
               </p>
-              <p className="font-mono text-sm tracking-[0.02em] text-[#ebe6f0] sm:text-2xl">
+              <p className="font-mono text-xs tracking-[0.02em] text-[#ebe6f0] sm:text-sm">
                 {unit.label}
               </p>
             </div>
             {i < units.length - 1 && (
-              <p className="font-sans text-5xl font-bold text-[#ebe6f0] sm:text-8xl">:</p>
+              <p className="font-sans text-3xl font-bold text-[#ebe6f0] sm:text-6xl">:</p>
             )}
           </div>
         ))}

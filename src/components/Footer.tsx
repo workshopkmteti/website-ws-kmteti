@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <footer className="flex flex-col items-center gap-16 bg-[#0a060d] px-6 py-12 sm:px-16 lg:px-32">
       <div className="flex w-full max-w-6xl flex-col items-start justify-between gap-8 text-[#ebe6f0] sm:flex-row">
-        <div className="flex flex-col gap-2 font-mono text-lg tracking-[0.02em]">
+        <div className="flex flex-col gap-2 font-mono text-sm tracking-[0.02em]">
           <p className="font-bold">
             KMTETI
             <br />
@@ -15,7 +15,7 @@ export default function Footer() {
           </p>
           <p>All Right Reserved</p>
         </div>
-        <div className="flex flex-col gap-8 font-mono text-lg tracking-[0.02em] sm:items-end">
+        <div className="flex flex-col gap-8 font-mono text-sm tracking-[0.02em] sm:items-end">
           <div>
             <p className="font-bold">Our Social Media</p>
             <p>@w.santuyyy</p>
