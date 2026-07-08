@@ -22,7 +22,7 @@ The system serves both TETI students and the broader UGM student body for open t
 
 | Layer | Technology |
 |---|---|
-| Frontend | Next.js 16 (App Router), React 19, TypeScript 5 |
+| Frontend | Next.js 16.2.10 (App Router, Turbopack), React 19.2.4, TypeScript 5 |
 | Styling | Tailwind CSS v4 |
 | Backend / DB | Supabase (Postgres + Auth + Storage) |
 | Email | SendGrid Email API |

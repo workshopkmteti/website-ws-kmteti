@@ -1,25 +1,64 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-ws-bg: #08071A;
-  --color-ws-bg-card: #110F2E;
-  --color-ws-bg-section: #0D0B24;
-  --color-ws-purple: #6B21A8;
-  --color-ws-purple-mid: #7C3AED;
-  --color-ws-purple-light: #A855F7;
-  --color-ws-purple-border: rgba(107, 33, 168, 0.4);
-  --color-ws-purple-glow: rgba(124, 58, 237, 0.15);
-  --color-ws-text: #FFFFFF;
-  --color-ws-text-muted: #9CA3AF;
-  --color-ws-text-sub: #C4B5FD;
-  --color-ws-yellow: #FACC15;
+:root {
+  --background: #1e0339;
+  --foreground: #ebe6f0;
+}
 
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-montserrat);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: var(--color-ws-bg);
-  color: var(--color-ws-text);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  overflow-x: hidden;
+}
+
+/* Starfield placeholder for the decorative dots in the Figma background */
+.starfield {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 10% 8%, rgba(235, 230, 240, 0.9), transparent 100%),
+    radial-gradient(1.5px 1.5px at 24% 32%, rgba(235, 230, 240, 0.7), transparent 100%),
+    radial-gradient(1px 1px at 38% 14%, rgba(235, 230, 240, 0.8), transparent 100%),
+    radial-gradient(2px 2px at 52% 46%, rgba(235, 230, 240, 0.6), transparent 100%),
+    radial-gradient(1px 1px at 66% 22%, rgba(235, 230, 240, 0.9), transparent 100%),
+    radial-gradient(1.5px 1.5px at 78% 58%, rgba(235, 230, 240, 0.7), transparent 100%),
+    radial-gradient(1px 1px at 88% 36%, rgba(235, 230, 240, 0.8), transparent 100%),
+    radial-gradient(2px 2px at 6% 64%, rgba(235, 230, 240, 0.6), transparent 100%),
+    radial-gradient(1.5px 1.5px at 32% 78%, rgba(235, 230, 240, 0.8), transparent 100%),
+    radial-gradient(1px 1px at 46% 88%, rgba(235, 230, 240, 0.7), transparent 100%),
+    radial-gradient(1.5px 1.5px at 60% 92%, rgba(235, 230, 240, 0.6), transparent 100%),
+    radial-gradient(1px 1px at 94% 80%, rgba(235, 230, 240, 0.9), transparent 100%);
+  background-repeat: repeat;
+  background-size: 480px 480px;
+}
+
+/* Auto-scrolling marquee for the "On Going" carousel */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee-scroll 25s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
 }

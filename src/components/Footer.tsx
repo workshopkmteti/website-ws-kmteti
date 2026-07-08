@@ -1,84 +1,44 @@
-import Link from "next/link";
-
-const navLinks = [
-  { label: "About Us", href: "#about" },
-  { label: "Programs", href: "#programs" },
-  { label: "Register", href: "#register" },
-] as const;
-
-const socialLinks = [
-  { label: "Not Social Media", href: "#" },
-  { label: "Not Social Media", href: "#" },
-  { label: "Contact", href: "#" },
-  { label: "contact.ws@mail.com", href: "mailto:contact.ws@mail.com" },
-] as const;
+const imgLogoBottom =
+  "https://www.figma.com/api/mcp/asset/fcba72c5-efd6-4b60-9cdc-f36b44bd9784";
+const imgLogoTop =
+  "https://www.figma.com/api/mcp/asset/634c60a3-313c-4536-8cac-6d4047bf8968";
 
 export default function Footer() {
   return (
-    <footer
-      className="border-t border-[var(--color-ws-purple-border)]"
-      style={{ background: "var(--color-ws-bg)" }}
-    >
-      <div className="max-w-7xl mx-auto px-6 pt-12 pb-6">
-        <div className="flex flex-col md:flex-row justify-between gap-10 mb-8">
-          <div className="flex flex-col gap-1">
-            <p className="text-xs font-bold text-white">
-              Workshop
-              <br />
-              KMTETI
-            </p>
-            <p className="text-[10px] text-[var(--color-ws-text-muted)]">
-              All Rights Reserved
-            </p>
-          </div>
-
-          <nav aria-label="Footer navigation">
-            <ul className="flex flex-col gap-2" role="list">
-              {navLinks.map(({ label, href }) => (
-                <li key={label}>
-                  <Link
-                    href={href}
-                    className="text-xs text-[var(--color-ws-text-muted)] hover:text-white transition-colors duration-200"
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <div>
-            <ul className="flex flex-col gap-2" role="list">
-              {socialLinks.map(({ label, href }) => (
-                <li key={label}>
-                  <a
-                    href={href}
-                    className="text-xs text-[var(--color-ws-text-muted)] hover:text-white transition-colors duration-200"
-                    {...(href.startsWith("mailto") ? {} : { target: "_blank", rel: "noopener noreferrer" })}
-                  >
-                    {label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="border-t border-[var(--color-ws-purple-border)] pt-6">
-          <p
-            className="text-center font-extrabold tracking-widest select-none"
-            style={{
-              fontSize: "clamp(3rem, 12vw, 8rem)",
-              background: "linear-gradient(180deg, rgba(168,85,247,0.4) 0%, transparent 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-            aria-hidden="true"
-          >
-            Workshop
+    <footer className="flex flex-col items-center gap-16 bg-[#0a060d] px-6 py-12 sm:px-16 lg:px-32">
+      <div className="flex w-full max-w-6xl flex-col items-start justify-between gap-8 text-[#ebe6f0] sm:flex-row">
+        <div className="flex flex-col gap-2 font-mono text-lg tracking-[0.02em]">
+          <p className="font-bold">
+            KMTETI
+            <br />
+            WORKSHOP
           </p>
+          <p>All Right Reserved</p>
         </div>
+        <div className="flex flex-col gap-8 font-mono text-lg tracking-[0.02em] sm:items-end">
+          <div>
+            <p className="font-bold">Our Social Media</p>
+            <p>@w.santuyyy</p>
+          </div>
+          <div>
+            <p className="font-bold">Contact</p>
+            <p>ws@gmail.com</p>
+          </div>
+        </div>
+      </div>
+      <div className="relative h-[240px] w-full max-w-6xl">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={imgLogoBottom}
+          alt=""
+          className="absolute inset-x-0 bottom-0 h-full w-full object-contain opacity-90"
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={imgLogoTop}
+          alt="Logo besar Workshop KMTETI"
+          className="absolute inset-x-0 bottom-0 h-full w-full object-contain"
+        />
       </div>
     </footer>
   );

@@ -1,37 +1,33 @@
-import Navbar from "@/components/Navbar";
-import HeroSection from "@/components/HeroSection";
-import AboutSection from "@/components/AboutSection";
-import WhyUsSection from "@/components/WhyUsSection";
-import OnGoingSection from "@/components/OnGoingSection";
-import CountdownTimer from "@/components/CountdownTimer";
-import TimelineSection from "@/components/TimelineSection";
-import OurEventsSection from "@/components/OurEventsSection";
-import FaqSection from "@/components/FaqSection";
-import CtaSection from "@/components/CtaSection";
+import Background from "@/components/Background";
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import AboutUs from "@/components/AboutUs";
+import WhyUs from "@/components/WhyUs";
+import OnGoing from "@/components/OnGoing";
+import Timer from "@/components/Timer";
+import Timeline from "@/components/Timeline";
+import OurEvents from "@/components/OurEvents";
+import Faq from "@/components/Faq";
+import Cta from "@/components/Cta";
 import Footer from "@/components/Footer";
 
-const REGISTRATION_DEADLINE = new Date("2025-07-01T23:59:59");
-const UPCOMING_EVENT_NAME = "EVENT";
-
-export default function HomePage() {
+export default function Home() {
   return (
-    <>
-      <Navbar />
-      <main>
-        <HeroSection />
-        <AboutSection />
-        <WhyUsSection />
-        <OnGoingSection />
-        <CountdownTimer
-          targetDate={REGISTRATION_DEADLINE}
-          eventName={UPCOMING_EVENT_NAME}
-        />
-        <TimelineSection />
-        <OurEventsSection />
-        <FaqSection />
-        <CtaSection />
+    <div className="relative flex min-h-screen flex-col">
+      <Background />
+      <Header />
+      <main className="relative flex flex-col">
+        <Hero />
+        <AboutUs />
+        <WhyUs />
+        <OnGoing />
+        <Timer />
+        <Timeline />
+        <OurEvents />
+        <Faq />
+        <Cta />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
