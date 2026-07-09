@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-const imgLogo =
-  "https://www.figma.com/api/mcp/asset/6b812460-0921-44b7-ba63-066023a72176";
+import LogoUpright from "./LogoUpright";
 
 const NAV_LINKS = [
   { label: "About Us", href: "#about" },
@@ -20,12 +18,7 @@ export default function Header() {
         <div className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_1px_4px_1px_rgba(163,155,215,0.25)]" />
         <div className="relative flex items-center justify-between px-5 py-2.5 sm:px-8">
           <a href="#top" className="relative h-9 w-22 shrink-0 sm:h-11 sm:w-28">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={imgLogo}
-              alt="Logo Workshop KMTETI"
-              className="h-full w-full object-contain"
-            />
+            <LogoUpright className="h-full w-full" />
           </a>
           <nav className="hidden items-center gap-8 font-mono text-sm tracking-[0.5px] text-[#ebe6f0] md:flex">
             {NAV_LINKS.map((link) => (
