@@ -3,9 +3,13 @@ const imgLogoBottom =
 const imgLogoTop =
   "https://www.figma.com/api/mcp/asset/634c60a3-313c-4536-8cac-6d4047bf8968";
 
-export default function Footer() {
+type FooterProps = {
+  className?: string;
+};
+
+export default function Footer({ className = "" }: FooterProps) {
   return (
-    <footer className="flex flex-col items-center gap-16 bg-[#0a060d] px-6 py-12 sm:px-16 lg:px-32">
+    <footer className={`flex flex-col items-center gap-16 bg-[#0a060d] px-6 py-12 sm:px-16 lg:px-32 ${className}`}>
       <div className="flex w-full max-w-6xl flex-col items-start justify-between gap-8 text-[#ebe6f0] sm:flex-row">
         <div className="flex flex-col gap-2 font-mono text-sm tracking-[0.02em]">
           <p className="font-bold">

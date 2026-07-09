@@ -10,6 +10,7 @@ import OurEvents from "@/components/OurEvents";
 import Faq from "@/components/Faq";
 import Cta from "@/components/Cta";
 import Footer from "@/components/Footer";
+import Mascot from "@/components/Mascot";
 
 export default function Home() {
   return (
@@ -27,7 +28,13 @@ export default function Home() {
         <Faq />
         <Cta />
       </main>
-      <Footer />
+      <div className="relative">
+        <Mascot
+          pose="wink-left"
+          className="pointer-events-none absolute bottom-full left-1/2 z-0 -translate-x-1/2 translate-y-1/2"
+        />
+        <Footer className="relative z-10" />
+      </div>
     </div>
   );
 }

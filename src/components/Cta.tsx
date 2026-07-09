@@ -1,6 +1,6 @@
 export default function Cta() {
   return (
-    <section id="register" className="flex flex-col items-center gap-10 px-6 py-24 text-center sm:py-32">
+    <section id="register" className="flex flex-col items-center gap-10 px-6 pt-24 pb-32 text-center sm:pt-32 sm:pb-40">
       <h2 className="max-w-3xl text-balance font-sans text-3xl font-bold text-[#ebe6f0] sm:text-5xl lg:text-6xl">
         UPGRADE TO YOUR NEXT LEVEL
       </h2>
