@@ -45,6 +45,62 @@ body {
   background-size: 480px 480px;
 }
 
+.starfield,
+.starfield::before,
+.starfield::after {
+  animation:
+    starfield-drift 90s linear infinite,
+    starfield-twinkle 4s ease-in-out infinite;
+}
+
+.starfield::before,
+.starfield::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: inherit;
+  background-repeat: repeat;
+  background-size: 480px 480px;
+}
+
+.starfield::before {
+  animation-duration: 130s, 5s;
+  animation-direction: reverse, normal;
+}
+
+.starfield::after {
+  background-position: 120px 90px;
+  animation-duration: 70s, 6.5s;
+  animation-delay: 0s, 1.2s;
+}
+
+@keyframes starfield-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 480px 480px;
+  }
+}
+
+@keyframes starfield-twinkle {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starfield,
+  .starfield::before,
+  .starfield::after {
+    animation: none;
+  }
+}
+
 /* Auto-scrolling marquee for the "On Going" carousel */
 @keyframes marquee-scroll {
   from { transform: translateX(0); }
