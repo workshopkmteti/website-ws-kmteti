@@ -31,7 +31,7 @@ export default function Home() {
       <div className="relative">
         <Mascot
           pose="wink-left"
-          className="pointer-events-none absolute bottom-full left-1/2 z-0 -translate-x-1/2 translate-y-1/2"
+          className="pointer-events-none absolute bottom-full left-1/2 z-0 h-20 w-29 -translate-x-1/2 translate-y-1/2 sm:h-32 sm:w-46 md:h-75 md:w-109 lg:h-87.5 lg:w-126"
         />
         <Footer className="relative z-10" />
       </div>

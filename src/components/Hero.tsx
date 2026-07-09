@@ -5,7 +5,7 @@ export default function Hero() {
     <section id="top" className="relative flex flex-col items-center justify-center gap-10 px-6 py-28 text-center sm:py-36">
       <Mascot
         pose="idle"
-        className="pointer-events-none absolute -bottom-18.5 -left-18.5 z-0 h-20 w-29 sm:bottom-10 sm:-left-8 sm:h-32 sm:w-46 md:bottom-14 md:-left-12 md:h-48 md:w-70 lg:bottom-16 lg:-left-8 lg:h-56 lg:w-81"
+        className="pointer-events-none absolute -bottom-18.5 -left-18.5 z-0 h-20 w-29 sm:bottom-10 sm:-left-8 sm:h-32 sm:w-46 md:-bottom-8 md:-left-16 md:h-75 md:w-109 lg:-bottom-10 lg:-left-10 lg:h-87.5 lg:w-126"
       />
       <div
         aria-hidden
