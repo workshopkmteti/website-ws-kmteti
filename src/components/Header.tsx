@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import LogoUpright from "./LogoUpright";
 
 const NAV_LINKS = [
@@ -27,6 +28,14 @@ export default function Header() {
               </a>
             ))}
           </nav>
+          <div className="hidden md:flex">
+            <Link
+              href="/auth/login"
+              className="flex h-9 items-center justify-center rounded-full border border-[#ebe6f0]/40 px-5 font-mono text-sm tracking-[0.02em] text-[#ebe6f0] transition-colors hover:border-[#ebe6f0] hover:bg-[#ebe6f0]/10"
+            >
+              Masuk
+            </Link>
+          </div>
           <button
             type="button"
             onClick={() => setIsMenuOpen((open) => !open)}
@@ -64,6 +73,13 @@ export default function Header() {
                 {link.label}
               </a>
             ))}
+            <Link
+              href="/auth/login"
+              onClick={() => setIsMenuOpen(false)}
+              className="mx-5 mt-2 mb-4 flex h-10 items-center justify-center rounded-full border border-[#ebe6f0]/40 text-center"
+            >
+              Masuk
+            </Link>
           </div>
         </nav>
       </div>
