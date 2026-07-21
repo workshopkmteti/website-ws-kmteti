@@ -5,28 +5,66 @@ type CreateJoinViewProps = {
   onCreateTeam: (name: string) => void;
   onJoinTeam: (code: string) => void;
   onCheckAvailability: () => void;
+  createError?: string | null;
+  joinError?: string | null;
 };
 
 export default function CreateJoinView({
   onCreateTeam,
   onJoinTeam,
   onCheckAvailability,
+  createError,
+  joinError,
 }: CreateJoinViewProps) {
   const [teamName, setTeamName] = useState("");
   const [teamCode, setTeamCode] = useState("");
+  const [nameError, setNameError] = useState<string | null>(null);
+  const [codeError, setCodeError] = useState<string | null>(null);
 
   const handleCreateSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (teamName.trim()) {
-      onCreateTeam(teamName.trim());
+    const trimmed = teamName.trim();
+    if (!trimmed) {
+      setNameError("Team name cannot be empty.");
+      return;
     }
+    if (trimmed.length < 3 || trimmed.length > 25) {
+      setNameError("Team name must be between 3 and 25 characters.");
+      return;
+    }
+    const nameRegex = /^[a-zA-Z0-9\s-]+$/;
+    if (!nameRegex.test(trimmed)) {
+      setNameError("Team name can only contain letters, numbers, spaces, and dashes.");
+      return;
+    }
+    setNameError(null);
+    onCreateTeam(trimmed);
   };
 
   const handleJoinSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (teamCode.trim()) {
-      onJoinTeam(teamCode.trim());
+    const trimmed = teamCode.trim();
+    if (!trimmed) {
+      setCodeError("Team code cannot be empty.");
+      return;
     }
+    const codeRegex = /^[a-zA-Z]{3}\d{3}$/;
+    if (!codeRegex.test(trimmed)) {
+      setCodeError("Team code must be 3 letters followed by 3 numbers (e.g. ABC123).");
+      return;
+    }
+    setCodeError(null);
+    onJoinTeam(trimmed);
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTeamName(e.target.value);
+    if (nameError) setNameError(null);
+  };
+
+  const handleCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTeamCode(e.target.value);
+    if (codeError) setCodeError(null);
   };
 
   return (
@@ -49,10 +87,14 @@ export default function CreateJoinView({
               <input
                 type="text"
                 value={teamName}
-                onChange={(e) => setTeamName(e.target.value)}
+                onChange={handleNameChange}
                 placeholder="Enter your team name"
                 aria-label="Team name"
-                className="h-11 flex-1 rounded-xl border border-[#ebe6f0]/30 bg-[#1e0339]/60 px-4 font-mono text-sm text-[#ebe6f0] outline-none transition-all placeholder:text-[#c1b2d0]/40 focus:border-[#33488d] focus:bg-[#1e0339] focus:shadow-[0_0_0_3px_rgba(51,72,141,0.25)]"
+                className={`h-11 flex-1 rounded-xl border bg-[#1e0339]/60 px-4 font-mono text-sm text-[#ebe6f0] outline-none transition-all placeholder:text-[#c1b2d0]/40 focus:bg-[#1e0339] focus:shadow-[0_0_0_3px_rgba(51,72,141,0.25)] ${
+                  nameError || createError
+                    ? "border-red-500/50 focus:border-red-500"
+                    : "border-[#ebe6f0]/30 focus:border-[#33488d]"
+                }`}
               />
               <button
                 type="submit"
@@ -62,6 +104,11 @@ export default function CreateJoinView({
                 <span className="relative">Create</span>
               </button>
             </div>
+            {(nameError || createError) && (
+              <p className="text-xs font-semibold text-red-400 font-sans" role="alert">
+                {nameError || createError}
+              </p>
+            )}
           </form>
         </div>
 
@@ -76,10 +123,14 @@ export default function CreateJoinView({
               <input
                 type="text"
                 value={teamCode}
-                onChange={(e) => setTeamCode(e.target.value)}
+                onChange={handleCodeChange}
                 placeholder="Enter your team code"
                 aria-label="Team code"
-                className="h-11 flex-1 rounded-xl border border-[#ebe6f0]/30 bg-[#1e0339]/60 px-4 font-mono text-sm text-[#ebe6f0] outline-none transition-all placeholder:text-[#c1b2d0]/40 focus:border-[#33488d] focus:bg-[#1e0339] focus:shadow-[0_0_0_3px_rgba(51,72,141,0.25)]"
+                className={`h-11 flex-1 rounded-xl border bg-[#1e0339]/60 px-4 font-mono text-sm text-[#ebe6f0] outline-none transition-all placeholder:text-[#c1b2d0]/40 focus:bg-[#1e0339] focus:shadow-[0_0_0_3px_rgba(51,72,141,0.25)] ${
+                  codeError || joinError
+                    ? "border-red-500/50 focus:border-red-500"
+                    : "border-[#ebe6f0]/30 focus:border-[#33488d]"
+                }`}
               />
               <button
                 type="submit"
@@ -89,6 +140,11 @@ export default function CreateJoinView({
                 <span className="relative">Join</span>
               </button>
             </div>
+            {(codeError || joinError) && (
+              <p className="text-xs font-semibold text-red-400 font-sans" role="alert">
+                {codeError || joinError}
+              </p>
+            )}
           </form>
         </div>
       </div>

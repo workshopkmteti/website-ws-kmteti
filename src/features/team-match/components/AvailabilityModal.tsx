@@ -1,24 +1,24 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import Mascot from "@/components/Mascot";
+import { type Team } from "../types";
 
 type AvailabilityModalProps = {
+  teams: Record<string, Team>;
   onClose: () => void;
   onSelectTeam: (code: string) => void;
 };
 
-const DEFAULT_TEAMS = [
-  { code: "XXX999", capacity: "0/0" },
-  { code: "XXX888", capacity: "0/0" },
-  { code: "XXX990", capacity: "0/0" },
-  { code: "YYY998", capacity: "0/0" },
-  { code: "YYY888", capacity: "0/0" },
-];
-
 export default function AvailabilityModal({
+  teams,
   onClose,
   onSelectTeam,
 }: AvailabilityModalProps) {
   const [selectedCode, setSelectedCode] = useState<string | null>(null);
+
+  // Get list of teams sorted by code, filtering out test-only codes if needed or showing all.
+  // We sort them so they appear consistently.
+  const teamsList = Object.values(teams).sort((a, b) => a.code.localeCompare(b.code));
 
   const handleNext = () => {
     if (selectedCode) {
@@ -30,7 +30,10 @@ export default function AvailabilityModal({
   };
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 flex items-center justify-center bg-[#1e0339]/80 px-4 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
@@ -40,7 +43,13 @@ export default function AvailabilityModal({
       <div className="absolute inset-0" onClick={onClose} aria-hidden="true" />
 
       {/* Content Container */}
-      <div className="relative flex w-full max-w-lg flex-col items-center">
+      <motion.div
+        initial={{ scale: 0.9, y: 15 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.9, y: 15 }}
+        transition={{ type: "spring", duration: 0.4 }}
+        className="relative flex w-full max-w-lg flex-col items-center"
+      >
         {/* Title above the modal frame */}
         <h1
           id="modal-title"
@@ -59,16 +68,22 @@ export default function AvailabilityModal({
           </div>
 
           {/* Teams List */}
-          <div className="relative z-10 flex flex-col gap-3">
-            {DEFAULT_TEAMS.map((team) => {
+          <div className="relative z-10 flex flex-col gap-3 max-h-[300px] overflow-y-auto pr-1">
+            {teamsList.map((team) => {
               const isSelected = selectedCode === team.code;
+              const membersCount = 1 + team.members.length;
+              const isFull = membersCount >= 3;
+
               return (
                 <button
                   key={team.code}
                   type="button"
+                  disabled={isFull}
                   onClick={() => setSelectedCode(team.code)}
                   className={`flex w-full items-center justify-between rounded-2xl border px-5 py-4 text-left transition-all outline-none ${
-                    isSelected
+                    isFull
+                      ? "border-[#ebe6f0]/10 bg-[#1e0339]/20 opacity-50 cursor-not-allowed"
+                      : isSelected
                       ? "border-[#89C43E] bg-[#89C43E]/10 shadow-[0_0_12px_rgba(137,196,62,0.25)]"
                       : "border-[#ebe6f0]/20 bg-[#1e0339]/50 hover:border-[#ebe6f0]/40"
                   }`}
@@ -76,8 +91,12 @@ export default function AvailabilityModal({
                   <span className="font-sans text-sm font-medium text-[#ebe6f0] sm:text-base">
                     Team <span className="font-mono text-[#c1b2d0]">(Code: {team.code})</span>
                   </span>
-                  <span className="rounded-full bg-[#1e0339]/80 border border-[#ebe6f0]/10 px-3 py-1 font-mono text-xs font-bold text-[#c1b2d0]">
-                    {team.capacity}
+                  <span className={`rounded-full border px-3 py-1 font-mono text-xs font-bold ${
+                    isFull
+                      ? "bg-red-500/20 border-red-500/30 text-red-400"
+                      : "bg-[#1e0339]/80 border-[#ebe6f0]/10 text-[#c1b2d0]"
+                  }`}>
+                    {membersCount}/3 {isFull && "Full"}
                   </span>
                 </button>
               );
@@ -96,7 +115,7 @@ export default function AvailabilityModal({
             </button>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
