@@ -1,16 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import DetailPelatihan from "./TampilanProgram";
+import { Program, PROGRAMS } from "./DetailPrograms";
 
 const imgArrowIcon =
   "https://www.figma.com/api/mcp/asset/2290ca83-805f-47b0-be17-0d987dc24fb6";
-
-const PROGRAMS = [
-  { tag: "Pelatihan Genap", title: "IMAGE PROCESSING" },
-  { tag: "Pelatihan Genap", title: "MatLab" },
-  { tag: "Pelatihan Genap", title: "Proteus" },
-  { tag: "Pelatihan Genap", title: "IMAGE PROCESSING" },
-];
 
 const CARD_WIDTH = 300;
 const CARD_GAP = 24;
@@ -25,10 +20,12 @@ function ProgramCard({
   tag,
   title,
   cardRef,
+  onOpenDetails,
 }: {
   tag: string;
   title: string;
   cardRef: (el: HTMLDivElement | null) => void;
+  onOpenDetails: () => void;
 }) {
   return (
     <div
@@ -40,7 +37,10 @@ function ProgramCard({
         <p className="font-mono text-xs tracking-[0.02em] text-[#c1b2d0]">{tag}</p>
         <p className="font-mono text-lg font-bold tracking-[0.02em] text-[#ebe6f0]">{title}</p>
       </div>
-      <button className="flex h-10 items-center justify-center gap-2 rounded-xl border border-[#ebe6f0] bg-[#1e0339] px-5 font-mono text-xs tracking-[0.02em] text-[#ebe6f0] transition-transform hover:scale-105">
+      <button
+        onClick={onOpenDetails}
+        className="flex h-10 items-center justify-center gap-2 rounded-xl border border-[#ebe6f0] bg-[#1e0339] px-5 font-mono text-xs tracking-[0.02em] text-[#ebe6f0] transition-transform hover:scale-105 cursor-pointer"
+      >
         Selengkapnya
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={imgArrowIcon} alt="" className="size-3.5" />
@@ -54,6 +54,7 @@ export default function OnGoing() {
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -124,6 +125,9 @@ export default function OnGoing() {
               key={i}
               tag={p.tag}
               title={p.title}
+              onOpenDetails={() => {
+                setSelectedProgram(p);
+              }}
               cardRef={(el) => {
                 cardsRef.current[i] = el;
               }}
@@ -131,6 +135,13 @@ export default function OnGoing() {
           ))}
         </div>
       </div>
+
+      {/* Program Detail Modal */}
+      <DetailPelatihan
+        key={selectedProgram?.title}
+        program={selectedProgram}
+        onClose={() => setSelectedProgram(null)}
+      />
     </section>
   );
 }
