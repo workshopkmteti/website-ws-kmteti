@@ -1,24 +1,16 @@
 import type { StatCard } from "@/types/dashboard";
-  
-const imgIconPelatihan = "/IconPelatihan.svg";
-const imgIconTasks = "/IconTasks.svg";
-const imgIconJadwal = "/IconJadwal.svg";
-const imgIconProgress = "/IconProgress.svg";
+import Image from 'next/image';
+type StatCardGridProps = {
+  cards: StatCard[];
+};
 
-const STAT_CARDS: StatCard[] = [
-  { iconSrc: imgIconPelatihan, label: "Pelatihan", value: "2", sub: "Aktif" },
-  { iconSrc: imgIconTasks, label: "Completed Tasks", value: "12 / 67", sub: "Minggu ini" },
-  { iconSrc: imgIconJadwal, label: "Kelas Mendatang", value: "3", sub: "Dalam 7 hari" },
-  { iconSrc: imgIconProgress, label: "Progress", value: "55%", sub: "Pelatihan" },
-];
-
-export default function StatCardGrid() {
+export default function StatCardGrid({ cards }: StatCardGridProps) {
   return (
     <div className="stat-grid" role="list" aria-label="Statistik pelatihan">
-      {STAT_CARDS.map(({ iconSrc, label, value, sub }) => (
+      {cards.map(({ iconSrc, label, value, sub }) => (
         <article key={label} className="stat-card" role="listitem">
           <div className="stat-icon-box" aria-hidden="true">
-            <img src={iconSrc} alt="" className="stat-icon-img" />
+            <Image src={iconSrc} alt="" className="stat-icon-img" width={24} height={24} />
           </div>
           <div className="stat-body">
             <span className="stat-label">{label}</span>

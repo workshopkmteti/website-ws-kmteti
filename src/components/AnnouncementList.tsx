@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Announcement } from "@/types/dashboard";
-  
+import Image from 'next/image';
+
 const imgArrow = "/Arrow.svg";
 const imgIconMegaphone = "/pengumumanicon.svg";
 const imgIconCalendar = "/jadwalicon.svg";
@@ -8,13 +9,14 @@ const imgIconCalendar = "/jadwalicon.svg";
 type AnnouncementListProps = {
   items: Announcement[];
   showAllHref: string;
+  title: string;
 };
 
 function AnnouncementItem({ item }: { item: Announcement }) {
   return (
     <li className="announcement-item">
       <div className="announcement-icon-box" aria-hidden="true">
-        <img src={item.iconSrc} alt="" className="announcement-icon-img" />
+        <Image src={item.iconSrc} alt="" className="announcement-icon-img" width={24} height={24} />
       </div>
       <div className="announcement-body">
         <div className="announcement-meta">
@@ -28,17 +30,17 @@ function AnnouncementItem({ item }: { item: Announcement }) {
         className="schedule-arrow-btn"
         aria-label={`Baca selengkapnya: ${item.title}`}
       >
-        <img src={imgArrow} alt="" aria-hidden="true" className="schedule-arrow-icon" />
+        <Image src={imgArrow} alt="" aria-hidden="true" className="schedule-arrow-icon" width={24} height={24} />
       </Link>
     </li>
   );
 }
 
-export default function AnnouncementList({ items, showAllHref }: AnnouncementListProps) {
+export default function AnnouncementList({ items, showAllHref, title }: AnnouncementListProps) {
   return (
     <section className="panel-card" aria-labelledby="announcement-heading">
       <div className="panel-header">
-        <h2 id="announcement-heading" className="panel-title">Pengumuman</h2>
+        <h2 id="announcement-heading" className="panel-title">{title}</h2>
         <Link href={showAllHref} className="panel-show-all-btn">Tampilkan Semua</Link>
       </div>
       <ul className="announcement-list" role="list">

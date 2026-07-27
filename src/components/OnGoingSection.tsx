@@ -11,7 +11,7 @@ const trainings: Training[] = [
 function TrainingCard({ training }: { training: Training }) {
   return (
     <article
-      className="shrink-0 w-44 rounded-xl border border-[var(--color-ws-purple-border)] overflow-hidden"
+      className="shrink-0 w-44 rounded-xl border border-(--color-ws-purple-border) overflow-hidden"
       style={{ background: "var(--color-ws-bg-card)" }}
     >
       <div
@@ -20,13 +20,13 @@ function TrainingCard({ training }: { training: Training }) {
         aria-hidden="true"
       />
       <div className="p-3 flex flex-col gap-1">
-        <p className="text-[10px] text-[var(--color-ws-text-muted)]">
+        <p className="text-[10px] text-(--color-ws-text-muted)">
           {training.category}
         </p>
         <p className="text-xs font-semibold text-white leading-tight">
           {training.title}
         </p>
-        <span className="mt-1 inline-block text-[10px] px-2 py-0.5 rounded-full border border-[var(--color-ws-purple-border)] text-[var(--color-ws-purple-light)]">
+        <span className="mt-1 inline-block text-[10px] px-2 py-0.5 rounded-full border border-(--color-ws-purple-border) text-(--color-ws-purple-light)">
           Selengkapnya
         </span>
       </div>

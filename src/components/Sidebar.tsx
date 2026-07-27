@@ -14,7 +14,7 @@ const IMAGES = {
   settings: "/settingsicon.svg",
   help: "/helpicon.svg",
   logout: "/logouticon.svg",
-  mascot: "/Mascot.svg",
+  mascot: "/Mascot67.svg",
 } as const;
 
 const NAV_PRIMARY: NavItem[] = [
@@ -40,8 +40,6 @@ type SidebarProps = {
   userName: string;
   userRole: string;
   userInitial: string;
-  unreadCount: number;
-  trainingCount: number;
 };
 
 function NavSection({ items, activeHref }: { items: NavItem[]; activeHref: string }) {
@@ -79,8 +77,6 @@ export default function Sidebar({
   userName,
   userRole,
   userInitial,
-  unreadCount,
-  trainingCount,
 }: SidebarProps) {
   return (
     <aside className="sidebar flex flex-col">
@@ -99,16 +95,14 @@ export default function Sidebar({
         </div>
 
         {/* Mascot with counters */}
-        <div className="relative flex items-center justify-center gap-4" aria-hidden="true">
-          <span className="text-3xl font-extrabold text-white sm:text-4xl">{unreadCount}</span>
+        <div className="relative flex items-center justify-center" aria-hidden="true">
           <Image
             src={IMAGES.mascot}
             alt=""
-            width={124}
-            height={124}
-            className="h-28 w-28 object-contain"
+            width={180}
+            height={180}
+            className="h-44 w-44 object-contain"
           />
-          <span className="text-3xl font-extrabold text-white sm:text-4xl">{trainingCount}</span>
         </div>
       </div>
 

@@ -8,6 +8,7 @@ const imgIconOffline = "/offline-icon.svg";
 type ScheduleListProps = {
   entries: ScheduleEntry[];
   showAllHref: string;
+  title: string;
 };
 
 function ScheduleItem({ entry }: { entry: ScheduleEntry }) {
@@ -50,11 +51,11 @@ function ScheduleItem({ entry }: { entry: ScheduleEntry }) {
   );
 }
 
-export default function ScheduleList({ entries, showAllHref }: ScheduleListProps) {
+export default function ScheduleList({ entries, showAllHref, title }: ScheduleListProps) {
   return (
     <section className="panel-card" aria-labelledby="schedule-heading">
       <div className="panel-header">
-        <h2 id="schedule-heading" className="panel-title">Jadwal Selanjutnya</h2>
+        <h2 id="schedule-heading" className="panel-title">{title}</h2>
         <Link href={showAllHref} className="panel-show-all-btn">Tampilkan Semua</Link>
       </div>
       <ul className="schedule-list" role="list">

@@ -4,7 +4,7 @@ import HeroBanner from "@/components/HeroBanner";
 import StatCardGrid from "@/components/StatCardGrid";
 import ScheduleList from "@/components/ScheduleList";
 import AnnouncementList, { imgIconMegaphone, imgIconCalendar } from "@/components/AnnouncementList";
-import type { ScheduleEntry, Announcement } from "@/types/dashboard";
+import type { Announcement, ScheduleEntry, StatCard } from "@/types/dashboard";
 
 // Figma (3202-547): dot color tokens
 const DOT_GREEN = "green";
@@ -78,32 +78,88 @@ const ANNOUNCEMENTS: Announcement[] = [
   },
 ];
 
+const CURRENT_USER = {
+  name: "John Doe",
+  role: "Participant",
+};
+
+const imgIconPelatihan = "/pelatihanicon.svg";
+const imgIconTasks = "/penugasanicon.svg";
+const imgIconJadwal = "/jadwalicon.svg";
+const imgIconProgress = "/materiicon.svg";
+
+const STAT_CARDS: StatCard[] = [
+  { iconSrc: imgIconPelatihan, label: "Pelatihan", value: "2", sub: "Aktif" },
+  { iconSrc: imgIconTasks, label: "Completed Tasks", value: "12 / 67", sub: "Minggu ini" },
+  { iconSrc: imgIconJadwal, label: "Kelas Mendatang", value: "3", sub: "Dalam 7 hari" },
+  { iconSrc: imgIconProgress, label: "Progress", value: "55%", sub: "Pelatihan" },
+];
+
+type PanelCopy = {
+  scheduleTitle: string;
+  announcementTitle: string;
+};
+
+const DASHBOARD_COPY: PanelCopy = {
+  scheduleTitle: "Jadwal Selanjutnya",
+  announcementTitle: "Pengumuman",
+};
+
+function getUserInitial(name: string) {
+  return name.trim().charAt(0).toUpperCase();
+}
+
+function getGreetingByHour(hour: number) {
+  if (hour >= 5 && hour < 12) {
+    return "G'morning";
+  }
+
+  if (hour >= 12 && hour < 15) {
+    return "G'noon";
+  }
+
+  if (hour >= 15 && hour < 18) {
+    return "G'afternoon";
+  }
+
+  return "G'evening";
+}
+
 export default function DashboardPage() {
+  const userInitial = getUserInitial(CURRENT_USER.name);
+  const greeting = getGreetingByHour(new Date().getHours());
+
   return (
     <div className="dashboard-layout">
       <Sidebar
         activeHref="/dashboard"
-        userName="John Doe"
-        userRole="Participant"
-        userInitial="J"
-        unreadCount={6}
-        trainingCount={7}
+        userName={CURRENT_USER.name}
+        userRole={CURRENT_USER.role}
+        userInitial={userInitial}
       />
       <div className="dashboard-main">
         <Topbar notificationCount={3} />
         <main className="dashboard-content">
           <HeroBanner
-            userName="John"
-            greeting="G'morning"
+            userName={CURRENT_USER.name}
+            greeting={greeting}
             tagline="Rise and shine to keep growing."
-            eventTitle="Bootcamp 2026"
+            eventTitle="Pelatihan Ganjil 2026"
             eventDesc="is now open for registration!"
             eventHref="/pelatihan/bootcamp-2026"
           />
-          <StatCardGrid />
+          <StatCardGrid cards={STAT_CARDS} />
           <div className="dashboard-panels">
-            <ScheduleList entries={SCHEDULE_ENTRIES} showAllHref="/jadwal" />
-            <AnnouncementList items={ANNOUNCEMENTS} showAllHref="/pengumuman" />
+            <ScheduleList
+              entries={SCHEDULE_ENTRIES}
+              showAllHref="/jadwal"
+              title={DASHBOARD_COPY.scheduleTitle}
+            />
+            <AnnouncementList
+              items={ANNOUNCEMENTS}
+              showAllHref="/pengumuman"
+              title={DASHBOARD_COPY.announcementTitle}
+            />
           </div>
         </main>
       </div>
