@@ -1,0 +1,112 @@
+import Sidebar from "@/components/Sidebar";
+import Topbar from "@/components/Topbar";
+import HeroBanner from "@/components/HeroBanner";
+import StatCardGrid from "@/components/StatCardGrid";
+import ScheduleList from "@/components/ScheduleList";
+import AnnouncementList, { imgIconMegaphone, imgIconCalendar } from "@/components/AnnouncementList";
+import type { ScheduleEntry, Announcement } from "@/types/dashboard";
+
+// Figma (3202-547): dot color tokens
+const DOT_GREEN = "green";
+const DOT_PURPLE = "purple";
+
+const SCHEDULE_ENTRIES: ScheduleEntry[] = [
+  {
+    id: "stm32-serba-serbi",
+    dayName: "TUE",
+    month: "MAY",
+    date: 20,
+    title: "Serba Serbi Compvis",
+    trainingName: "Pelatihan STM32 I 2026",
+    timeStart: "13:00",
+    timeEnd: "15:00",
+    mode: "Offline",
+    dotColor: DOT_PURPLE,
+  },
+  {
+    id: "mbg-gizi-1",
+    dayName: "THU",
+    month: "MAY",
+    date: 22,
+    title: "Gizi Makanan Ternak",
+    trainingName: "Pelatihan MBG 2026",
+    timeStart: "10:00",
+    timeEnd: "12:00",
+    mode: "Online",
+    dotColor: DOT_GREEN,
+  },
+  {
+    id: "mbg-kembang",
+    dayName: "THU",
+    month: "MAY",
+    date: 22,
+    title: "Kembang Buah Hati",
+    trainingName: "Pelatihan MBG 2026",
+    timeStart: "10:00",
+    timeEnd: "12:00",
+    mode: "Online",
+    dotColor: DOT_GREEN,
+  },
+  {
+    id: "mbg-gizi-2",
+    dayName: "THU",
+    month: "MAY",
+    date: 22,
+    title: "Gizi Makanan Ternak",
+    trainingName: "Pelatihan MBG 2026",
+    timeStart: "10:00",
+    timeEnd: "12:00",
+    mode: "Online",
+    dotColor: DOT_GREEN,
+  },
+];
+
+const ANNOUNCEMENTS: Announcement[] = [
+  {
+    id: "ann-genap-2026",
+    iconSrc: imgIconMegaphone,
+    title: "Pelatihan Genap 2026 Sudah Dibuka!",
+    date: "May 6, 2026",
+    body: "Pendaftaran pelatihan sudah dibuka. Jangan sia-siakan kesempatan ini!",
+  },
+  {
+    id: "ann-jadwal-stm32",
+    iconSrc: imgIconCalendar,
+    title: "Perubahan Jadwal Pelatihan STM32",
+    date: "May 6, 2026",
+    body: "Pelatihan STM32 di tanggal 32 Mei 2026 akan ditunda ke 1 Juli 2026.",
+  },
+];
+
+export default function DashboardPage() {
+  return (
+    <div className="dashboard-layout">
+      <Sidebar
+        activeHref="/dashboard"
+        userName="John Doe"
+        userRole="Participant"
+        userInitial="J"
+        unreadCount={6}
+        trainingCount={7}
+      />
+      <div className="dashboard-main">
+        <Topbar notificationCount={3} />
+        <main className="dashboard-content">
+          <HeroBanner
+            userName="John"
+            greeting="G'morning"
+            tagline="Rise and shine to keep growing."
+            eventTitle="Bootcamp 2026"
+            eventDesc="is now open for registration!"
+            eventHref="/pelatihan/bootcamp-2026"
+          />
+          <StatCardGrid />
+          <div className="dashboard-panels">
+            <ScheduleList entries={SCHEDULE_ENTRIES} showAllHref="/jadwal" />
+            <AnnouncementList items={ANNOUNCEMENTS} showAllHref="/pengumuman" />
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}

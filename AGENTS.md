@@ -20,15 +20,15 @@ The system serves both TETI students and the broader UGM student body for open t
 
 # Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Frontend | Next.js 16 (App Router), React 19, TypeScript 5 |
-| Styling | Tailwind CSS v4 |
-| Backend / DB | Supabase (Postgres + Auth + Storage) |
-| Email | SendGrid Email API |
-| File Storage | Google Drive API |
-| Spreadsheet Backup | Google Sheets API |
-| Deployment | (TBD by team) |
+| Layer              | Technology                                      |
+| ------------------ | ----------------------------------------------- |
+| Frontend           | Next.js 16 (App Router), React 19, TypeScript 5 |
+| Styling            | Tailwind CSS v4                                 |
+| Backend / DB       | Supabase (Postgres + Auth + Storage)            |
+| Email              | SendGrid Email API                              |
+| File Storage       | Google Drive API                                |
+| Spreadsheet Backup | Google Sheets API                               |
+| Deployment         | (TBD by team)                                   |
 
 **Read `node_modules/next/dist/docs/` before writing any Next.js code.** This is Next.js 16 — APIs and conventions differ from what you know. Heed all deprecation notices.
 
@@ -40,7 +40,7 @@ The system serves both TETI students and the broader UGM student body for open t
 - **Clean code.** Every identifier must be self-explanatory. If a name needs a comment to explain it, rename it instead.
 - **DRY.** Extract only when duplication is real and the abstraction has a clear single responsibility. Three similar lines is not automatic duplication.
 - **No speculative code.** Do not add features, error handling, or abstractions for hypothetical future requirements.
-- **Minimal comments.** Only comment when the *why* is genuinely non-obvious — a hidden constraint, an external bug workaround, a subtle invariant. Never comment the *what*.
+- **Minimal comments.** Only comment when the _why_ is genuinely non-obvious — a hidden constraint, an external bug workaround, a subtle invariant. Never comment the _what_.
 - **No half-finished implementations.** Ship complete, working code or nothing.
 - **Validate only at system boundaries** — user input, external APIs. Trust internal code and framework guarantees.
 
@@ -95,11 +95,11 @@ src/
 
 ## File Upload Constraints (enforced server-side too, not just client)
 
-| File | Max Size |
-|---|---|
-| Commitment fee proof (image) | 1 MB |
-| Training materials (Google Drive) | 20 MB |
-| Final project submission | Link only (Google Drive / YouTube / GitHub URL) |
+| File                              | Max Size                                        |
+| --------------------------------- | ----------------------------------------------- |
+| Commitment fee proof (image)      | 1 MB                                            |
+| Training materials (Google Drive) | 20 MB                                           |
+| Final project submission          | Link only (Google Drive / YouTube / GitHub URL) |
 
 ## Email Flow (SendGrid)
 

@@ -16,7 +16,7 @@ const socialLinks = [
 export default function Footer() {
   return (
     <footer
-      className="border-t border-[var(--color-ws-purple-border)]"
+      className="border-t border-(--color-ws-purple-border)"
       style={{ background: "var(--color-ws-bg)" }}
     >
       <div className="max-w-7xl mx-auto px-6 pt-12 pb-6">
@@ -27,7 +27,7 @@ export default function Footer() {
               <br />
               KMTETI
             </p>
-            <p className="text-[10px] text-[var(--color-ws-text-muted)]">
+            <p className="text-[10px] text-(--color-ws-text-muted)">
               All Rights Reserved
             </p>
           </div>
@@ -38,7 +38,7 @@ export default function Footer() {
                 <li key={label}>
                   <Link
                     href={href}
-                    className="text-xs text-[var(--color-ws-text-muted)] hover:text-white transition-colors duration-200"
+                    className="text-xs text-(--color-ws-text-muted) hover:text-white transition-colors duration-200"
                   >
                     {label}
                   </Link>
@@ -53,7 +53,7 @@ export default function Footer() {
                 <li key={label}>
                   <a
                     href={href}
-                    className="text-xs text-[var(--color-ws-text-muted)] hover:text-white transition-colors duration-200"
+                    className="text-xs text-(--color-ws-text-muted) hover:text-white transition-colors duration-200"
                     {...(href.startsWith("mailto") ? {} : { target: "_blank", rel: "noopener noreferrer" })}
                   >
                     {label}
@@ -64,7 +64,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-[var(--color-ws-purple-border)] pt-6">
+        <div className="border-t border-(--color-ws-purple-border) pt-6">
           <p
             className="text-center font-extrabold tracking-widest select-none"
             style={{
