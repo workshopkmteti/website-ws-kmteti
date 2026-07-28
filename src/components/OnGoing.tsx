@@ -74,6 +74,13 @@ export default function OnGoing() {
     viewport?.addEventListener("mouseenter", onEnter);
     viewport?.addEventListener("mouseleave", onLeave);
 
+    // Reading clientWidth inside the rAF tick forces a layout every frame.
+    let viewportWidth = viewport?.clientWidth ?? 0;
+    const resizeObserver = new ResizeObserver(([entry]) => {
+      viewportWidth = entry.contentRect.width;
+    });
+    if (viewport) resizeObserver.observe(viewport);
+
     const tick = (time: number) => {
       if (lastTime === null) lastTime = time;
       const dt = (time - lastTime) / 1000;
@@ -84,13 +91,12 @@ export default function OnGoing() {
       }
 
       const trackEl = trackRef.current;
-      const viewportEl = viewportRef.current;
       if (trackEl) {
         trackEl.style.transform = `translateX(${-offset}px)`;
       }
 
-      if (viewportEl) {
-        const viewportCenter = TRACK_PADDING + viewportEl.clientWidth / 2 - CARD_WIDTH / 2;
+      if (viewportWidth > 0) {
+        const viewportCenter = TRACK_PADDING + viewportWidth / 2 - CARD_WIDTH / 2;
 
         cardsRef.current.forEach((card, i) => {
           if (!card) return;
@@ -109,6 +115,7 @@ export default function OnGoing() {
     frameId = requestAnimationFrame(tick);
     return () => {
       cancelAnimationFrame(frameId);
+      resizeObserver.disconnect();
       viewport?.removeEventListener("mouseenter", onEnter);
       viewport?.removeEventListener("mouseleave", onLeave);
     };
