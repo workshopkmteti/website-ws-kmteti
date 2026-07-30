@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from 'next/image';
 // Asset URLs from Figma (node 3202-547)
 const imgMascot = "/MascotKecil.svg";
-const imgLogoWorkshop = "/logowsdankmteti.svg";
+const imgLogoWorkshop = "/logo_putih.svg";
 
 type HeroBannerProps = {
   userName: string;
@@ -33,7 +33,7 @@ export default function HeroBanner({
       <div className="hero-event-card">
         {/* Mascot */}
         <div className="hero-mascot-wrap" aria-hidden="true">
-          <Image src={imgMascot} alt="" className="hero-mascot-img" width={100} height={100} />
+          <Image src={imgMascot} alt="" className="hero-mascot-img" width={150} height={150} />
         </div>
 
         <div className="hero-event-info">
@@ -44,7 +44,7 @@ export default function HeroBanner({
           </Link>
         </div>
 
-        <Image src={imgLogoWorkshop} alt="Workshop KMTETI FT UGM" className="hero-logo-small" aria-hidden="true" width={100} height={100} />
+        <Image src={imgLogoWorkshop} alt="Workshop KMTETI FT UGM" className="hero-logo-small" aria-hidden="true" width={100} height={40} />
       </div>
     </section>
   );

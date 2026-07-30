@@ -10,7 +10,7 @@ const events: Event[] = [
 function EventCard({ event }: { event: Event }) {
   return (
     <article
-      className="flex flex-col rounded-xl overflow-hidden border border-[var(--color-ws-purple-border)] transition-transform duration-200 hover:-translate-y-1"
+      className="flex flex-col rounded-xl overflow-hidden border border-(--color-ws-purple-border) transition-transform duration-200 hover:-translate-y-1"
       style={{ background: "var(--color-ws-bg-card)" }}
     >
       <div

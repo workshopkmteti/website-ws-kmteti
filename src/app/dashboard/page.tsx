@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 import HeroBanner from "@/components/HeroBanner";
@@ -128,6 +131,7 @@ function getGreetingByHour(hour: number) {
 export default function DashboardPage() {
   const userInitial = getUserInitial(CURRENT_USER.name);
   const greeting = getGreetingByHour(new Date().getHours());
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className="dashboard-layout">
@@ -136,9 +140,14 @@ export default function DashboardPage() {
         userName={CURRENT_USER.name}
         userRole={CURRENT_USER.role}
         userInitial={userInitial}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
       />
       <div className="dashboard-main">
-        <Topbar notificationCount={3} />
+        <Topbar
+          notificationCount={3}
+          onMenuClick={() => setSidebarOpen(true)} 
+        />
         <main className="dashboard-content">
           <HeroBanner
             userName={CURRENT_USER.name}

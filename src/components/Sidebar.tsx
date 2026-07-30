@@ -1,5 +1,9 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Menu, X } from "lucide-react";
 import type { NavItem } from "@/types/dashboard";
 
 const IMAGES = {
@@ -23,16 +27,13 @@ const NAV_PRIMARY: NavItem[] = [
   { label: "Materi", href: "/materi", iconSrc: IMAGES.materi },
   { label: "Penugasan", href: "/penugasan", iconSrc: IMAGES.penugasan },
   { label: "Jadwal", href: "/jadwal", iconSrc: IMAGES.jadwal },
+  { label: "Kompetisi", href: "/kompetisi", iconSrc: IMAGES.kompetisi },
+  { label: "Pengumuman", href: "/pengumuman", iconSrc: IMAGES.pengumuman },
 ];
 
 const NAV_SECONDARY: NavItem[] = [
   { label: "Settings", href: "/settings", iconSrc: IMAGES.settings },
-  { label: "Kompetisi", href: "/kompetisi", iconSrc: IMAGES.kompetisi },
-];
-
-const NAV_TERTIARY: NavItem[] = [
   { label: "Help", href: "/help", iconSrc: IMAGES.help },
-  { label: "Pengumuman", href: "/pengumuman", iconSrc: IMAGES.pengumuman },
 ];
 
 type SidebarProps = {
@@ -40,6 +41,8 @@ type SidebarProps = {
   userName: string;
   userRole: string;
   userInitial: string;
+  isOpen: boolean;
+  onClose: () => void;
 };
 
 function NavSection({ items, activeHref }: { items: NavItem[]; activeHref: string }) {
@@ -54,14 +57,7 @@ function NavSection({ items, activeHref }: { items: NavItem[]; activeHref: strin
               className={`nav-item${active ? " nav-item--active" : ""}`}
               aria-current={active ? "page" : undefined}
             >
-              <Image
-                src={iconSrc}
-                alt=""
-                width={20}
-                height={20}
-                className="nav-icon"
-                aria-hidden="true"
-              />
+              <Image src={iconSrc} alt="" width={20} height={20} className="nav-icon" aria-hidden="true" />
               <span className="flex-1">{label}</span>
               {active && <span className="nav-dot" aria-hidden="true" />}
             </Link>
@@ -72,82 +68,72 @@ function NavSection({ items, activeHref }: { items: NavItem[]; activeHref: strin
   );
 }
 
-export default function Sidebar({
-  activeHref,
-  userName,
-  userRole,
-  userInitial,
-}: SidebarProps) {
+export default function Sidebar({ activeHref, userName, userRole, userInitial, isOpen, onClose }: SidebarProps) {
+
   return (
-    <aside className="sidebar flex flex-col">
-      {/* Header */}
-      <div className="flex flex-col gap-4 pb-4">
-        {/* Logo */}
-        <div className="flex items-center justify-center">
+    <>
+      {isOpen && (
+        <div className="sidebar-overlay" onClick={onClose} aria-hidden="true" />
+      )}
+
+      <aside className={`sidebar flex flex-col${isOpen ? " sidebar--open" : ""}`}>
+        {/* Tombol CLOSE */}
+        <button className="sidebar-close" onClick={onClose} aria-label="Tutup menu">
+          <X size={20} />
+        </button>
+
+        {/* Header */}
+        <div className="flex flex-col items-center gap-0">
           <Image
             src={IMAGES.logo}
             alt="Workshop KMTETI FT UGM"
-            width={160}
-            height={48}
-            className="h-auto w-48 object-contain"
+            width={110}
+            height={32}
+            className="h-auto w-28 object-contain"
             priority
           />
-        </div>
 
-        {/* Mascot with counters */}
-        <div className="relative flex items-center justify-center" aria-hidden="true">
-          <Image
-            src={IMAGES.mascot}
-            alt=""
-            width={180}
-            height={180}
-            className="h-44 w-44 object-contain"
-          />
-        </div>
-      </div>
-
-      {/* Navigation */}
-      <nav className="flex flex-1 flex-col gap-2 overflow-y-auto py-2">
-        <NavSection items={NAV_PRIMARY} activeHref={activeHref} />
-
-        <div className="border-t border-white/10" />
-        <NavSection items={NAV_SECONDARY} activeHref={activeHref} />
-
-        <div className="border-t border-white/10" />
-        <NavSection items={NAV_TERTIARY} activeHref={activeHref} />
-      </nav>
-
-      {/* Footer */}
-      <div className="flex flex-col gap-2 border-t border-white/10 pt-2">
-        {/* User Card */}
-        <div className="flex items-center gap-2 rounded-lg bg-white/5 p-2">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-(--accent-purple) text-xs font-bold text-white">
-            {userInitial}
+          <div className="relative -mt-10 -mb-10" aria-hidden="true">
+            <Image
+              src={IMAGES.mascot}
+              alt=""
+              width={200}
+              height={200}
+              className="h-48 w-48 object-contain"
+            />
           </div>
-          <div className="min-w-0 flex-1">
-            <div className="truncate text-xs font-semibold text-white">{userName}</div>
-            <div className="text-xs text-white/70">{userRole}</div>
-          </div>
-          <div className="h-2 w-2 shrink-0 rounded-full bg-(--accent-green)" />
         </div>
 
-        {/* Logout Button */}
-        <button
-          type="button"
-          className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-white/90 transition-colors hover:bg-white/5"
-          aria-label="Logout"
-        >
-          <Image
-            src={IMAGES.logout}
-            alt=""
-            width={20}
-            height={20}
-            className="h-5 w-5"
-            aria-hidden="true"
-          />
-          <span>Logout</span>
-        </button>
-      </div>
-    </aside>
+        {/* Navigation */}
+        <nav className="sidebar-nav flex flex-col gap-2 py-0">
+          <NavSection items={NAV_PRIMARY} activeHref={activeHref} />
+          <div className="border-t border-white/10" />
+          <NavSection items={NAV_SECONDARY} activeHref={activeHref} />
+        </nav>
+
+        {/* Footer */}
+        <div className="flex flex-col gap-2 border-t border-white/10 pt-2">
+          <div className="flex items-center gap-2 rounded-lg bg-white/5 p-2">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-(--accent-purple) text-xs font-bold text-white">
+              {userInitial}
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="truncate text-xs font-semibold text-white">{userName}</div>
+              <div className="text-xs text-white/70">{userRole}</div>
+            </div>
+            <div className="h-2 w-2 shrink-0 rounded-full bg-(--accent-green)" />
+          </div>
+
+          <button
+            type="button"
+            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-white/90 transition-colors hover:bg-white/5"
+            aria-label="Logout"
+          >
+            <Image src={IMAGES.logout} alt="" width={20} height={20} className="h-5 w-5" aria-hidden="true" />
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }

@@ -15,7 +15,7 @@
   --color-ws-yellow: #FACC15;
 
   /* semantic tokens */
-  --sidebar-width: 256px;
+  --sidebar-width: 200px;
   --bg-sidebar: linear-gradient(180deg, #98A9E2 0%, #2A3559 100%);
   --bg-card: var(--color-ws-bg-card);
   --bg-hero-event: var(--color-ws-bg-card);
