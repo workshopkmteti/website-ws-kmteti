@@ -84,9 +84,10 @@ export default function PaymentForm() {
                 </div>
             </div>
 
-            <button className="bg-gradient-to-b from-[#1c234a] to-[#0c102a] w-[70%] py-3.5 rounded-full text-sm font-bold tracking-[0.2em] border border-white/10 shadow-[0_0_20px_rgba(59,130,246,0.3)] text-white hover:scale-105 transition-transform relative z-10">
+            <button className="flex h-10 w-[70%] items-center justify-center rounded-xl border-[1.2px] border-[#ebe6f0] bg-[#1e0339] font-mono text-xs font-bold tracking-[0.1em] text-[#ebe6f0] transition-all relative z-10 hover:scale-105 shadow-[0_0_15px_rgba(30,3,57,0.5)]">
                 SUBMIT
             </button>
+
         </section>
     );
 }
