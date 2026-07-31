@@ -79,26 +79,27 @@ export default function RegisterForm() {
                 {currentPage > 1 ? (
                     <button
                         onClick={() => setCurrentPage(p => p - 1)}
-                        className="bg-white/10 px-6 py-3 rounded-xl text-[10px] font-bold tracking-wider border border-white/20 hover:bg-white/30 transition-colors text-white"
+                        className="flex h-12 items-center justify-center rounded-xl border-[1.2px] border-[#ebe6f0] bg-[#1e0339] px-8 font-mono text-[10px] font-bold tracking-wider text-[#ebe6f0] transition-transform hover:scale-105 relative z-10"
                     >
                         BACK
                     </button>
+
                 ) : (
                     <div className="w-[84px]"></div>
                 )}
 
-                <AuthButton
+                <button
                     disabled={selectedCourses.length === 0}
-                    className={`px-10 ${selectedCourses.length === 0 ? 'opacity-50 cursor-not-allowed hover:scale-100 active:scale-100' : 'shadow-[0_0_20px_rgba(59,130,246,0.3)]'}`}
+                    className={`flex h-10 items-center justify-center rounded-xl border-[1.2px] border-[#ebe6f0] bg-[#1e0339] px-10 font-mono text-xs font-bold tracking-[0.1em] text-[#ebe6f0] transition-all relative z-10 ${selectedCourses.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 shadow-[0_0_15px_rgba(30,3,57,0.5)]'}`}
                 >
                     SUBMIT
-                </AuthButton>
+                </button>
 
 
                 {currentPage < totalPages ? (
                     <button
                         onClick={() => setCurrentPage(p => p + 1)}
-                        className="bg-white/10 px-6 py-3 rounded-xl text-[10px] font-bold tracking-wider border border-white/20 hover:bg-white/30 transition-colors text-white"
+                        className="flex h-12 items-center justify-center rounded-xl border-[1.2px] border-[#ebe6f0] bg-[#1e0339] px-8 font-mono text-[10px] font-bold tracking-wider text-[#ebe6f0] transition-transform hover:scale-105 relative z-10"
                     >
                         NEXT
                     </button>
