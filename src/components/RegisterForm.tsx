@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowDownUp, ChevronDown, Search } from "lucide-react";
 import Mascot from "./Mascot";
 
@@ -43,6 +44,7 @@ export default function RegisterForm({ initialCourses }: RegisterFormProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const filteredCourses = useMemo(() => {
     const needle = searchQuery.trim().toLowerCase();
@@ -125,30 +127,47 @@ export default function RegisterForm({ initialCourses }: RegisterFormProps) {
         </button>
         <button
           type="button"
-          onClick={() => setShowSearch((prev) => !prev)}
+          onClick={() => {
+            setShowSearch((prev) => {
+              const next = !prev;
+              if (next) {
+                setTimeout(() => searchInputRef.current?.focus(), 0);
+              }
+              return next;
+            });
+          }}
           aria-expanded={showSearch}
-          className="flex min-w-[140px] flex-1 cursor-pointer items-center justify-center gap-2 rounded-[14px] border border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-5 py-1.5 font-[family-name:var(--font-quicksand)] text-xs font-bold tracking-[0.02em] text-[#e6edf4] shadow-[0_4px_10px_rgba(0,0,0,0.25)] transition hover:brightness-110 sm:text-sm"
+          className="flex min-w-[140px] flex-1 cursor-pointer items-center justify-center gap-2 rounded-[14px] border border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-5 py-1.5 font-[family-name:var(--font-quicksand)] text-xs font-bold tracking-[0.02em] text-[#e6edf4] shadow-[0_4px_10px_rgba(0,0,0,0.25)] transition hover:-translate-y-0.5 hover:brightness-110 active:scale-[0.98] sm:text-sm"
         >
           <span>Search</span>
           <Search className="size-3.5 shrink-0" aria-hidden="true" />
         </button>
       </div>
 
-      {showSearch && (
-        <div className="relative z-10 mb-5 w-full max-w-[520px]">
-          <input
-            type="search"
-            aria-label="Cari program"
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setCurrentPage(1);
-            }}
-            placeholder="Cari pelatihan atau kompetisi..."
-            className="w-full rounded-[14px] border border-[#c6c6c6]/70 bg-[#12062b]/65 px-4 py-2.5 text-xs text-[#e6edf4] placeholder:text-[#e6edf4]/50 focus:border-[#e6edf4] focus:outline-none sm:text-sm"
-          />
-        </div>
-      )}
+      <AnimatePresence initial={false}>
+        {showSearch && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="relative z-10 mb-5 w-full max-w-[520px] overflow-hidden"
+          >
+            <input
+              ref={searchInputRef}
+              type="search"
+              aria-label="Cari program"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
+              }}
+              placeholder="Cari pelatihan atau kompetisi..."
+              className="w-full rounded-[14px] border border-[#c6c6c6]/70 bg-[#12062b]/65 px-4 py-2.5 text-xs text-[#e6edf4] placeholder:text-[#e6edf4]/50 focus:border-[#e6edf4] focus:outline-none sm:text-sm"
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="relative z-10 min-h-[380px] w-full">
         {currentCourses.length === 0 ? (
@@ -159,12 +178,15 @@ export default function RegisterForm({ initialCourses }: RegisterFormProps) {
           currentCourses.map((course) => {
             const isSelected = selectedCourses.includes(course);
             return (
-              <button
+              <motion.button
                 type="button"
                 key={course}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.99 }}
+                transition={{ duration: 0.15 }}
                 onClick={() => toggleCourse(course)}
                 aria-pressed={isSelected}
-                className={`mb-4 flex w-full cursor-pointer items-center justify-between gap-4 rounded-[18px] border-[2.5px] border-[#c6c6c6] bg-[radial-gradient(ellipse_at_top_left,rgba(94,55,134,0.45),rgba(38,4,74,0.72))] px-5 py-4 text-left shadow-[0_0_32px_8px_rgba(49,5,95,0.45)] transition-all hover:brightness-110 sm:rounded-[20px] sm:px-7 sm:py-5 ${
+                className={`mb-4 flex w-full cursor-pointer items-center justify-between gap-4 rounded-[18px] border-[2.5px] border-[#c6c6c6] bg-[radial-gradient(ellipse_at_top_left,rgba(94,55,134,0.45),rgba(38,4,74,0.72))] px-5 py-4 text-left shadow-[0_0_32px_8px_rgba(49,5,95,0.45)] transition-colors hover:brightness-110 sm:rounded-[20px] sm:px-7 sm:py-5 ${
                   isSelected ? "ring-2 ring-[#e6edf4]/70" : ""
                 }`}
               >
@@ -177,7 +199,10 @@ export default function RegisterForm({ initialCourses }: RegisterFormProps) {
                   }`}
                 >
                   {isSelected && (
-                    <svg
+                    <motion.svg
+                      initial={{ scale: 0.5, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 24 }}
                       className="size-5 text-[#26044a] sm:size-6"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -190,10 +215,10 @@ export default function RegisterForm({ initialCourses }: RegisterFormProps) {
                         strokeWidth={3}
                         d="M5 13l4 4L19 7"
                       />
-                    </svg>
+                    </motion.svg>
                   )}
                 </span>
-              </button>
+              </motion.button>
             );
           })
         )}
@@ -216,13 +241,18 @@ export default function RegisterForm({ initialCourses }: RegisterFormProps) {
           type="button"
           onClick={handleSubmit}
           disabled={selectedCourses.length === 0}
-          className={`relative z-10 flex h-12 min-w-[180px] items-center justify-center rounded-[16px] border-[2.5px] border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-8 font-[family-name:var(--font-montserrat)] text-lg font-semibold tracking-wider text-[#e6edf4] shadow-[0_0_16px_4px_rgba(1,29,62,0.36),inset_2px_4px_4px_rgba(0,0,0,0.25)] transition-all sm:min-w-[240px] sm:text-[24px] ${
+          className={`relative z-10 flex h-12 min-w-[180px] items-center justify-center gap-2 rounded-[16px] border-[2.5px] border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-8 font-[family-name:var(--font-montserrat)] text-lg font-semibold tracking-wider text-[#e6edf4] shadow-[0_0_16px_4px_rgba(1,29,62,0.36),inset_2px_4px_4px_rgba(0,0,0,0.25)] transition-all sm:min-w-[240px] sm:text-[24px] ${
             selectedCourses.length === 0
               ? "cursor-not-allowed opacity-50"
-              : "cursor-pointer hover:scale-[1.02] hover:brightness-110"
+              : "cursor-pointer hover:-translate-y-0.5 hover:brightness-110 active:scale-[0.98]"
           }`}
         >
-          SUBMIT
+          <span>SUBMIT</span>
+          {selectedCourses.length > 0 && (
+            <span className="rounded-full bg-white/20 px-2 py-0.5 text-xs font-bold">
+              {selectedCourses.length}
+            </span>
+          )}
         </button>
 
         {safePage < totalPages ? (

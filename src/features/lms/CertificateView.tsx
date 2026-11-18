@@ -95,7 +95,7 @@ export default function CertificateView({
               <button
                 type="submit"
                 disabled={pending}
-                className="h-11 cursor-pointer rounded-[14px] border-[1.5px] border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-5 font-[family-name:var(--font-montserrat)] text-xs font-semibold tracking-wider text-[#e6edf4] shadow-[0_0_14px_2px_rgba(1,29,62,0.36),inset_1px_2px_3px_rgba(0,0,0,0.25)] transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-60"
+                className="h-11 cursor-pointer rounded-[14px] border-[1.5px] border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-5 font-[family-name:var(--font-montserrat)] text-xs font-semibold tracking-wider text-[#e6edf4] shadow-[0_0_14px_2px_rgba(1,29,62,0.36),inset_1px_2px_3px_rgba(0,0,0,0.25)] transition-all hover:-translate-y-0.5 hover:brightness-110 active:scale-[0.98] disabled:opacity-60"
               >
                 {pending ? "Menyimpan..." : "Kumpulkan Final Project"}
               </button>
@@ -152,7 +152,7 @@ export default function CertificateView({
               }}
               className={`h-11 rounded-[14px] border-[1.5px] font-[family-name:var(--font-montserrat)] text-xs font-semibold tracking-wider transition-all ${
                 eligible
-                  ? "cursor-pointer border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] text-[#e6edf4] shadow-[0_0_14px_2px_rgba(1,29,62,0.36),inset_1px_2px_3px_rgba(0,0,0,0.25)] hover:brightness-110 active:scale-[0.98]"
+                  ? "cursor-pointer border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] text-[#e6edf4] shadow-[0_0_14px_2px_rgba(1,29,62,0.36),inset_1px_2px_3px_rgba(0,0,0,0.25)] hover:-translate-y-0.5 hover:brightness-110 active:scale-[0.98]"
                   : "cursor-not-allowed border-[#c6c6c6]/30 bg-[#12062b]/50 text-[#e6edf4]/40"
               }`}
             >

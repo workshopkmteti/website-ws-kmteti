@@ -19,6 +19,7 @@ export default function PaymentForm() {
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -119,26 +120,40 @@ export default function PaymentForm() {
               fileInputRef.current?.click();
             }
           }}
-          onDragOver={(e) => e.preventDefault()}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setIsDragging(true);
+          }}
+          onDragLeave={() => setIsDragging(false)}
           onDrop={(e) => {
             e.preventDefault();
+            setIsDragging(false);
             const file = e.dataTransfer.files?.[0];
             if (file) handleFile(file);
           }}
-          className="relative mx-3 mt-2.5 flex h-28 w-[calc(100%-24px)] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[14px] border border-[#c3c3c3] bg-[#d9d9d9] text-[#011d3e]/40 transition-colors hover:bg-[#cfcfcf]"
+          className={`relative mx-3 mt-2.5 flex h-28 w-[calc(100%-24px)] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[14px] border transition-all ${
+            isDragging
+              ? "scale-[1.01] border-[#2a4580] bg-[#c8d4eb] text-[#011d3e]"
+              : "border-[#c3c3c3] bg-[#d9d9d9] text-[#011d3e]/40 hover:bg-[#cfcfcf]"
+          }`}
         >
           {preview ? (
-            <Image
-              src={preview}
-              alt="Proof preview"
-              fill
-              className="object-cover"
-            />
+            <>
+              <Image
+                src={preview}
+                alt="Proof preview"
+                fill
+                className="object-cover"
+              />
+              <span className="absolute right-2 bottom-2 rounded-full bg-[#0c1836]/85 px-3 py-1 font-mono text-[10px] font-semibold text-[#e6edf4] shadow">
+                {selectedFile?.name ?? "Ganti gambar"}
+              </span>
+            </>
           ) : (
             <>
               <span className="text-4xl leading-none font-normal">+</span>
               <span className="mt-1 font-[family-name:var(--font-montserrat)] text-xs">
-                Upload or drag the proof here
+                {isDragging ? "Drop the proof image here" : "Upload or drag the proof here"}
               </span>
             </>
           )}
@@ -155,7 +170,7 @@ export default function PaymentForm() {
         type="button"
         onClick={handleSubmit}
         disabled={pending}
-        className="relative z-10 flex h-12 min-w-[200px] cursor-pointer items-center justify-center rounded-[16px] border-[2.5px] border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-8 font-[family-name:var(--font-montserrat)] text-lg font-semibold tracking-wider text-[#e6edf4] shadow-[0_0_16px_4px_rgba(1,29,62,0.36),inset_2px_4px_4px_rgba(0,0,0,0.25)] transition-all hover:scale-[1.02] hover:brightness-110 disabled:opacity-60 sm:min-w-[240px] sm:text-[24px]"
+        className="relative z-10 flex h-12 min-w-[200px] cursor-pointer items-center justify-center rounded-[16px] border-[2.5px] border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-8 font-[family-name:var(--font-montserrat)] text-lg font-semibold tracking-wider text-[#e6edf4] shadow-[0_0_16px_4px_rgba(1,29,62,0.36),inset_2px_4px_4px_rgba(0,0,0,0.25)] transition-all hover:-translate-y-0.5 hover:brightness-110 active:scale-[0.98] disabled:opacity-60 sm:min-w-[240px] sm:text-[24px]"
       >
         {pending ? "UPLOADING..." : "SUBMIT"}
       </button>

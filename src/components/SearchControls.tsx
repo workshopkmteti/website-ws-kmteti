@@ -9,7 +9,7 @@ export type SearchState = {
 };
 
 export const PILL_CLASS =
-  "flex min-w-0 items-center justify-center gap-2 rounded-2xl border border-[#c6c6c6] bg-[#18022c] px-4 py-2 font-[family-name:var(--font-quicksand)] text-sm font-bold tracking-[0.02em] text-[#e6edf4] shadow-[0_4px_10px_0_rgba(0,0,0,0.25)] sm:px-8 sm:text-base lg:text-xl";
+  "flex min-w-0 cursor-pointer items-center justify-center gap-2 rounded-[14px] border border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-4 py-2 font-[family-name:var(--font-quicksand)] text-xs font-bold tracking-[0.02em] text-[#e6edf4] shadow-[0_4px_10px_0_rgba(0,0,0,0.25)] transition hover:-translate-y-0.5 hover:brightness-110 sm:px-5 sm:text-sm";
 
 function SortIcon() {
   return (
@@ -67,7 +67,7 @@ export default function SearchControls({
   sortOptions: { value: SortKey; label: string }[];
 }) {
   return (
-    <div className="flex w-full flex-wrap items-center justify-center gap-3 sm:gap-4 lg:gap-11">
+    <div className="flex w-full flex-wrap items-center justify-center gap-2.5 sm:gap-3">
       <label className={PILL_CLASS}>
         Sort By
         <select

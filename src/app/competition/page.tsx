@@ -19,7 +19,7 @@ const SORT_OPTIONS = [
 ];
 
 const CARD_CLASS =
-  "relative z-10 flex flex-col gap-3 rounded-3xl border-2 border-[#c6c6c6] bg-gradient-to-b from-[#16012b] to-[#262a50] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:rounded-[35px] sm:px-6 sm:py-5 lg:border-4 lg:px-[30px] lg:py-6";
+  "relative z-10 flex flex-col gap-3 rounded-[24px] border-2 border-[#c6c6c6]/85 bg-[linear-gradient(142deg,rgba(198,198,198,0.22)_4%,rgba(94,55,134,0.42)_90%)] px-5 py-5 shadow-[0_12px_36px_rgba(12,4,28,0.45)] backdrop-blur-md transition-colors hover:border-[#c6c6c6] sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-7 sm:py-5";
 
 const PANEL_BACKGROUND =
   "radial-gradient(72% 120% at 20.8% -15.5%, rgba(54,38,167,1) 0%, rgba(54,22,136,1) 24.62%, rgba(54,5,104,1) 49.24%, rgba(42,4,81,1) 74.62%, rgba(30,3,57,1) 100%)";
@@ -41,14 +41,14 @@ function ChevronRightIcon({ className = "" }: { className?: string }) {
 function CardBody({ title, event, dueAt, status }: Competition) {
   return (
     <>
-      <div className="flex flex-col">
-        <h2 className="text-xl leading-tight font-bold text-white sm:text-2xl md:text-3xl lg:text-[40px]">
+      <div className="flex flex-col gap-1">
+        <h2 className="font-[family-name:var(--font-montserrat)] text-lg font-semibold leading-snug text-[#e6edf4] sm:text-xl">
           {title}
         </h2>
-        <p className="text-sm leading-tight text-white sm:text-base md:text-xl lg:text-[25px]">
+        <p className="font-[family-name:var(--font-quicksand)] text-sm font-medium text-[#e6edf4]/85">
           Event: {event}
         </p>
-        <p className="text-xs leading-tight text-white sm:text-sm md:text-base lg:text-xl">
+        <p className="font-mono text-xs text-[#e6edf4]/70">
           Due: {formatDue(dueAt)}
         </p>
       </div>
@@ -77,12 +77,12 @@ function CompetitionRow(competition: Competition) {
         <CardBody {...competition} />
       </summary>
       <div
-        className="-mt-10 flex flex-col items-center justify-center rounded-b-[20px] border-2 border-[#c6c6c6] px-4 pt-14 pb-6 sm:-mt-16 sm:px-6 sm:pt-22 sm:pb-10 lg:-mt-20 lg:border-4 lg:pt-28 lg:pb-14"
+        className="-mt-4 flex flex-col items-center justify-center rounded-b-[20px] border-2 border-t-0 border-[#c6c6c6]/85 px-6 pt-8 pb-6"
         style={{ background: PANEL_BACKGROUND }}
       >
         <Link
           href={competition.cta.href}
-          className="w-full rounded-2xl border-2 border-[#c6c6c6] bg-gradient-to-b from-[#34478d] to-[#1c0e3d] px-6 py-3 text-center text-base font-semibold text-[#e6edf4] shadow-[0_0_16px_4px_rgba(1,29,62,0.36),inset_2px_4px_4px_0_rgba(0,0,0,0.25)] transition-transform hover:scale-105 sm:w-fit sm:rounded-3xl sm:px-10 sm:text-xl lg:border-4 lg:px-12 lg:py-4 lg:text-3xl"
+          className="w-full rounded-[14px] border-[1.5px] border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-7 py-2.5 text-center font-[family-name:var(--font-montserrat)] text-sm font-semibold tracking-wide text-[#e6edf4] shadow-[0_0_16px_4px_rgba(1,29,62,0.36),inset_2px_4px_4px_0_rgba(0,0,0,0.25)] transition-all hover:-translate-y-0.5 hover:brightness-110 active:scale-[0.98] sm:w-fit"
         >
           {competition.cta.label}
         </Link>
@@ -100,13 +100,13 @@ export default function CompetitionPage() {
 
   return (
     <DashboardShell activeHref="/competition">
-      <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center gap-6 pt-4 pb-12 sm:gap-8">
+      <div className="relative mx-auto flex w-full max-w-4xl flex-col items-center gap-6 pt-4 pb-12 sm:gap-7">
         <div className="flex items-center justify-center gap-3">
           <Mascot
             pose="happy"
             className="pointer-events-none hidden h-16 w-20 shrink-0 sm:block"
           />
-          <h1 className="text-center font-[family-name:var(--font-montserrat)] text-2xl font-bold text-white sm:text-4xl md:text-5xl lg:text-[52px]">
+          <h1 className="text-center font-[family-name:var(--font-montserrat)] text-2xl font-bold tracking-wide text-[#e6edf4] uppercase sm:text-3xl">
             YOUR COMPETITION, JOHN!
           </h1>
         </div>

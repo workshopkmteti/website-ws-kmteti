@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { FileText, Video } from "lucide-react";
 
 export interface TrainingMaterial {
@@ -97,50 +98,58 @@ export default function MaterialsView({ initialMaterials }: MaterialsViewProps) 
       </header>
 
       <div className="grid gap-5 md:grid-cols-2">
-        {visibleMaterials.map((item) => (
-          <article
-            key={item.id}
-            className="flex flex-col justify-between gap-5 rounded-[24px] border-2 border-[#c6c6c6]/80 bg-[linear-gradient(142deg,rgba(198,198,198,0.22)_4%,rgba(94,55,134,0.42)_90%)] p-6 shadow-[0_12px_36px_rgba(12,4,28,0.45)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-[#c6c6c6]"
-          >
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between gap-2">
-                <span className="rounded-[10px] border border-[#c6c6c6]/50 bg-[#26044a]/70 px-3 py-1 font-[family-name:var(--font-quicksand)] text-xs font-bold text-[#e6edf4]">
-                  {item.program}
-                </span>
-                <span className="font-mono text-xs text-[#e6edf4]/70">
-                  Sesi {item.session} · {item.fileSizeLabel}
-                </span>
+        <AnimatePresence mode="popLayout" initial={false}>
+          {visibleMaterials.map((item, idx) => (
+            <motion.article
+              key={item.id}
+              layout
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              transition={{ duration: 0.22, delay: idx * 0.04 }}
+              whileHover={{ y: -2 }}
+              className="flex flex-col justify-between gap-5 rounded-[24px] border-2 border-[#c6c6c6]/80 bg-[linear-gradient(142deg,rgba(198,198,198,0.22)_4%,rgba(94,55,134,0.42)_90%)] p-6 shadow-[0_12px_36px_rgba(12,4,28,0.45)] backdrop-blur-md transition-colors hover:border-[#c6c6c6]"
+            >
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="rounded-[10px] border border-[#c6c6c6]/50 bg-[#26044a]/70 px-3 py-1 font-[family-name:var(--font-quicksand)] text-xs font-bold text-[#e6edf4]">
+                    {item.program}
+                  </span>
+                  <span className="font-mono text-xs text-[#e6edf4]/70">
+                    Sesi {item.session} · {item.fileSizeLabel}
+                  </span>
+                </div>
+                <h2 className="font-[family-name:var(--font-montserrat)] text-base font-semibold text-[#e6edf4] sm:text-lg">
+                  {item.title}
+                </h2>
+                <p className="font-[family-name:var(--font-quicksand)] text-xs font-medium text-[#e6edf4]/75">
+                  {item.date}
+                </p>
               </div>
-              <h2 className="font-[family-name:var(--font-montserrat)] text-base font-semibold text-[#e6edf4] sm:text-lg">
-                {item.title}
-              </h2>
-              <p className="font-[family-name:var(--font-quicksand)] text-xs font-medium text-[#e6edf4]/75">
-                {item.date}
-              </p>
-            </div>
 
-            <div className="flex flex-wrap gap-3">
-              <a
-                href={item.meetUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex h-10 flex-1 items-center justify-center gap-2 rounded-[14px] border-[1.5px] border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-4 font-[family-name:var(--font-montserrat)] text-xs font-semibold tracking-wide text-[#e6edf4] shadow-[0_0_14px_2px_rgba(1,29,62,0.36),inset_1px_2px_3px_rgba(0,0,0,0.25)] transition-all hover:brightness-110 active:scale-[0.98]"
-              >
-                <Video className="size-4 shrink-0" aria-hidden="true" />
-                Gabung Google Meet
-              </a>
-              <a
-                href={item.driveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex h-10 flex-1 items-center justify-center gap-2 rounded-[14px] border border-[#c6c6c6]/70 bg-[#12062b]/65 px-4 font-[family-name:var(--font-montserrat)] text-xs font-semibold tracking-wide text-[#e6edf4] transition-all hover:bg-[#1e0b42] active:scale-[0.98]"
-              >
-                <FileText className="size-4 shrink-0" aria-hidden="true" />
-                Buka Materi
-              </a>
-            </div>
-          </article>
-        ))}
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href={item.meetUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-10 flex-1 items-center justify-center gap-2 rounded-[14px] border-[1.5px] border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-4 font-[family-name:var(--font-montserrat)] text-xs font-semibold tracking-wide text-[#e6edf4] shadow-[0_0_14px_2px_rgba(1,29,62,0.36),inset_1px_2px_3px_rgba(0,0,0,0.25)] transition-all hover:-translate-y-0.5 hover:brightness-110 active:scale-[0.98]"
+                >
+                  <Video className="size-4 shrink-0" aria-hidden="true" />
+                  Gabung Google Meet
+                </a>
+                <a
+                  href={item.driveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-10 flex-1 items-center justify-center gap-2 rounded-[14px] border border-[#c6c6c6]/70 bg-[#12062b]/65 px-4 font-[family-name:var(--font-montserrat)] text-xs font-semibold tracking-wide text-[#e6edf4] transition-all hover:-translate-y-0.5 hover:bg-[#1e0b42] active:scale-[0.98]"
+                >
+                  <FileText className="size-4 shrink-0" aria-hidden="true" />
+                  Buka Materi
+                </a>
+              </div>
+            </motion.article>
+          ))}
+        </AnimatePresence>
       </div>
     </section>
   );
