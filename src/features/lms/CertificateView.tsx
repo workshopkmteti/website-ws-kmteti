@@ -140,7 +140,12 @@ export default function CertificateView({
             <button
               type="button"
               disabled={!eligible}
-              onClick={() => setDownloaded(true)}
+              onClick={() => {
+                setDownloaded(true);
+                window.location.assign(
+                  `/api/certificate?registrationId=${encodeURIComponent(registrationId)}`,
+                );
+              }}
               className={`h-11 rounded-[10px] border font-mono text-xs font-bold transition-all ${
                 eligible
                   ? "cursor-pointer border-[#7C3AED] bg-[#7C3AED] text-white hover:bg-[#6B21A8] active:scale-[0.98]"

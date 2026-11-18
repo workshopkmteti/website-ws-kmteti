@@ -1,9 +1,9 @@
 const EVENTS = [
-  { title: "Pelatihan Genap", date: "00-00 April" },
-  { title: "Pelatihan Genap", date: "00-00 April" },
-  { title: "Pelatihan Genap", date: "00-00 April" },
-  { title: "Pelatihan Genap", date: "00-00 April" },
-  { title: "Pelatihan Genap", date: "00-00 April" },
+  { title: "Pendaftaran Dibuka", date: "Minggu 1" },
+  { title: "Verifikasi & Grup WA", date: "Minggu 2" },
+  { title: "Pelatihan Sesi 1–3", date: "Minggu 3–5" },
+  { title: "Pelatihan Sesi 4–6", date: "Minggu 6–8" },
+  { title: "Final Project & Sertifikat", date: "Minggu 9" },
 ];
 
 export default function Timeline() {

@@ -36,7 +36,7 @@ export default function Timer() {
   return (
     <section className="flex flex-col items-center gap-8 px-6 py-20 text-center">
       <h2 className="font-sans text-2xl font-semibold text-[#ebe6f0] sm:text-4xl">
-        DAFTAR [EVENT] SEBELUM DITUTUP
+        DAFTAR PELATIHAN SEBELUM DITUTUP
       </h2>
       <div className="flex items-start justify-center gap-1 sm:gap-2">
         {units.map((unit, i) => (

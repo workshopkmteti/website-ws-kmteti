@@ -4,13 +4,21 @@ import { useState } from "react";
 
 const FAQS = [
   {
-    q: "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
-    a: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue.",
+    q: "Siapa saja yang boleh mendaftar pelatihan Workshop KMTETI?",
+    a: "Pelatihan terbuka untuk mahasiswa DTETI (Teknik Elektro dan Teknologi Informasi) serta mahasiswa UGM umum untuk program pelatihan terbuka.",
   },
-  { q: "Lorem ipsum dolor sit amet, consectetur adipiscing elit?", a: "" },
-  { q: "Lorem ipsum dolor sit amet, consectetur adipiscing elit?", a: "" },
-  { q: "Lorem ipsum dolor sit amet, consectetur adipiscing elit?", a: "" },
-  { q: "Lorem ipsum dolor sit amet, consectetur adipiscing elit?", a: "" },
+  {
+    q: "Bagaimana aturan commitment fee dan pengembaliannya?",
+    a: "Peserta mengunggah bukti commitment fee (maks 1 MB) saat mendaftar. Commitment fee dikembalikan 100% di akhir pelatihan jika peserta memenuhi syarat kehadiran dan mengumpulkan final project.",
+  },
+  {
+    q: "Apa syarat untuk mendapatkan sertifikat kelulusan?",
+    a: "Peserta wajib mengumpulkan final project dan memiliki jumlah ketidakhadiran maksimal 2 dari 6 sesi pelatihan.",
+  },
+  {
+    q: "Di mana materi pelatihan dan link Google Meet dibagikan?",
+    a: "Setelah login dan terkonfirmasi, peserta dapat mengakses materi dan tautan Google Meet langsung melalui menu Materi di dashboard.",
+  },
 ];
 
 export default function Faq() {

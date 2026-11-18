@@ -24,7 +24,7 @@ export default function Hero() {
         </h1>
       </div>
       <p className="relative z-10 max-w-2xl font-mono text-sm leading-relaxed tracking-[0.02em] text-[#c1b2d0] [text-shadow:0px_2px_8px_rgba(30,3,57,0.9)] sm:text-base">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna.
+        Divisi pelatihan KMTETI FT UGM — tempat mahasiswa Teknik Elektro dan Teknologi Informasi mengasah keahlian teknis secara praktis dan kolaboratif.
       </p>
       <a
         href="#register"

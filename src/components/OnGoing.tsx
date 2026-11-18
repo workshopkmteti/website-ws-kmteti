@@ -4,9 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import DetailPelatihan from "./TampilanProgram";
 import { Program, PROGRAMS } from "./DetailPrograms";
 
-const imgArrowIcon =
-  "https://www.figma.com/api/mcp/asset/2290ca83-805f-47b0-be17-0d987dc24fb6";
-
 const CARD_WIDTH = 300;
 const CARD_GAP = 24;
 const CARD_STEP = CARD_WIDTH + CARD_GAP;
@@ -42,8 +39,15 @@ function ProgramCard({
         className="flex h-10 items-center justify-center gap-2 rounded-xl border border-[#ebe6f0] bg-[#1e0339] px-5 font-mono text-xs tracking-[0.02em] text-[#ebe6f0] transition-transform hover:scale-105 cursor-pointer"
       >
         Selengkapnya
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={imgArrowIcon} alt="" className="size-3.5" />
+        <svg className="size-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path
+            d="M3.5 8h9m0 0L9 4.5M12.5 8 9 11.5"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </button>
     </div>
   );

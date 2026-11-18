@@ -20,11 +20,11 @@ export default function Footer({ className = "" }: FooterProps) {
           <div className="absolute top-0 left-[78.3%] flex flex-col gap-2 font-mono text-xs tracking-[0.02em] sm:text-sm">
             <div>
               <p className="font-bold">Our Social Media</p>
-              <p>@w.santuyyy</p>
+              <p>@workshop.kmteti</p>
             </div>
             <div>
               <p className="font-bold">Contact</p>
-              <p>ws@gmail.com</p>
+              <p>workshop.kmteti@ugm.ac.id</p>
             </div>
           </div>
         </div>

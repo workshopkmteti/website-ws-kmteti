@@ -34,6 +34,40 @@ export async function getCurrentUserSummary(): Promise<{ name: string; role: str
   }
 }
 
+export async function getUserProfileData(): Promise<{
+  fullName: string;
+  email: string;
+  phone: string;
+  nim: string;
+  role: string;
+}> {
+  try {
+    const supabase = await createSupabaseServerClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      return { fullName: "", email: "", phone: "", nim: "", role: "Peserta" };
+    }
+
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("full_name, email, phone, nim, role")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    return {
+      fullName: profile?.full_name ?? "",
+      email: profile?.email ?? user.email ?? "",
+      phone: profile?.phone ?? "",
+      nim: profile?.nim ?? "",
+      role: profile?.role === "admin" ? "Admin" : "Peserta",
+    };
+  } catch {
+    return { fullName: "", email: "", phone: "", nim: "", role: "Peserta" };
+  }
+}
+
 export async function getOpenProgramsData(): Promise<string[]> {
   try {
     const supabase = await createSupabaseServerClient();

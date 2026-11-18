@@ -162,14 +162,41 @@ export async function runManualBackupAction(
     return { ok: true, data: {} };
   }
 
+  const { data: registrations } = await admin
+    .from("registrations")
+    .select("id, program_title, payment_status, created_at, profiles(full_name, email)");
+
+  const rows: string[][] = [
+    ["Registration ID", "Nama", "Email", "Program", "Status Pembayaran", "Tanggal Daftar"],
+  ];
+  if (Array.isArray(registrations)) {
+    for (const row of registrations) {
+      const profileRaw = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles;
+      const profile = (profileRaw ?? {}) as { full_name?: string; email?: string };
+      rows.push([
+        String(row.id ?? ""),
+        String(profile.full_name ?? ""),
+        String(profile.email ?? ""),
+        String(row.program_title ?? ""),
+        String(row.payment_status ?? ""),
+        String(row.created_at ?? ""),
+      ]);
+    }
+  }
+
+  const { data: materials } = await admin.from("materials").select("drive_file_id");
+  const fileIds = Array.isArray(materials)
+    ? materials.map((m) => String(m.drive_file_id ?? "")).filter(Boolean)
+    : [];
+
   const sheet = await exportBackupToSheets({
     title: `Workshop-KMTETI-Backup-${new Date().toISOString().slice(0, 10)}`,
-    rows: [["Backup Timestamp", new Date().toISOString()]],
+    rows,
   });
 
   const archive = await archiveBinaryFilesInDrive({
     backupFolderName: `Backup-${new Date().toISOString().slice(0, 10)}`,
-    fileIds: [],
+    fileIds,
   });
 
   const { error } = await admin.from("admin_logs").insert({

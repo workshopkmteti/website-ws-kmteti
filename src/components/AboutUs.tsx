@@ -12,11 +12,9 @@ export default function AboutUs() {
           }}
         />
         <p className="relative z-10 text-center font-mono text-sm leading-relaxed tracking-[0.02em] text-[#c1b2d0] [text-shadow:0px_2px_8px_rgba(30,3,57,0.9)] sm:text-base">
-          Workshop... lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam
-          in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur,
-          ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum
-          auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at
-          maximus ante fermentum sit amet.
+          Workshop KMTETI menghadirkan program pelatihan terstruktur mulai dari pengolahan citra,
+          simulasi rangkaian, sistem tertanam, hingga pengembangan perangkat lunak bagi mahasiswa
+          UGM untuk siap menghadapi riset, kompetisi, dan dunia industri.
         </p>
       </div>
     </section>
