@@ -47,7 +47,7 @@ export default function Topbar({
       </button>
 
       {variant === "workshop" ? (
-        <div className="relative flex-1 max-w-[680px] overflow-hidden rounded-2xl bg-[rgba(163,140,186,0.25)] shadow-[0_0_8px_4px_rgba(38,4,74,0.25)] backdrop-blur-md">
+        <div className="relative flex-1 overflow-hidden rounded-2xl bg-[rgba(163,140,186,0.25)] shadow-[0_0_8px_4px_rgba(38,4,74,0.25)] backdrop-blur-md">
           <div className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_1px_4px_1px_rgba(163,155,215,0.25)]" />
           <div className="relative flex items-center justify-between px-4 py-2 sm:px-7">
             <Link

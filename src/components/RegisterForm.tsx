@@ -98,8 +98,8 @@ export default function RegisterForm({ initialCourses }: RegisterFormProps) {
 
   return (
     <section className="relative mx-auto flex w-full max-w-[820px] flex-col items-center rounded-[32px] border-[2.5px] border-[#c6c6c6] bg-[linear-gradient(142deg,rgba(198,198,198,0.6)_3.6%,rgba(94,55,134,0.6)_90.5%)] px-4 py-8 shadow-[0_20px_60px_rgba(12,4,28,0.55)] backdrop-blur-md sm:rounded-[40px] sm:px-10 sm:py-10">
-      <div className="pointer-events-none absolute -top-14 -left-16 z-30 hidden scale-[0.52] sm:block">
-        <Mascot pose="happy" tilt={-15} />
+      <div className="pointer-events-none absolute -top-10 -left-8 z-30 hidden sm:block md:-top-12 md:-left-12">
+        <Mascot pose="happy" tilt={-15} className="h-24 w-32 md:h-28 md:w-36" />
       </div>
 
       <h1 className="relative z-10 mb-5 text-center font-[family-name:var(--font-montserrat)] text-lg font-semibold tracking-wide text-[#e6edf4] uppercase sm:text-[26px]">
