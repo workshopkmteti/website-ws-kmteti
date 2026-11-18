@@ -6,7 +6,7 @@ import PaymentForm from "@/components/PaymentForm";
 export default function CoursePaymentPage() {
   return (
     <DashboardShell activeHref="/course/register">
-      <div className="mx-auto flex w-full max-w-[680px] flex-col gap-4 py-4">
+      <div className="mx-auto flex w-full max-w-[680px] flex-col gap-10 py-4">
         <Link
           href="/course/register"
           className="font-mono text-xs text-[#9CA3AF] underline underline-offset-4 hover:text-white"
