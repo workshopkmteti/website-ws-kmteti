@@ -40,7 +40,7 @@ export async function submitRegistrationAction(
   const safeName = proof.name.replace(/[^a-zA-Z0-9._-]/g, "_");
   const storagePath = `${user.id}/${Date.now()}-${safeName}`;
   const { error: uploadError } = await supabase.storage
-    .from("commitment-proofs")
+    .from("commitment_proofs")
     .upload(storagePath, proof, { contentType: proof.type, upsert: false });
 
   if (uploadError) {
