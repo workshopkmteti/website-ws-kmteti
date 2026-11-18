@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "../styles/tokens.css";
+@import "../styles/dashboard.css";
 
 :root {
   --background: #1e0339;
@@ -23,10 +25,11 @@ body {
   overflow-x: hidden;
 }
 
-/* Starfield placeholder for the decorative dots in the Figma background */
+/* Fixed + transform-driven so the drift composites on the GPU instead of
+   repainting the whole page every frame. */
 .starfield {
-  position: absolute;
-  inset: 0;
+  position: fixed;
+  inset: -480px;
   pointer-events: none;
   background-image:
     radial-gradient(1.5px 1.5px at 10% 8%, rgba(235, 230, 240, 0.9), transparent 100%),
@@ -76,10 +79,10 @@ body {
 
 @keyframes starfield-drift {
   from {
-    background-position: 0 0;
+    transform: translate3d(0, 0, 0);
   }
   to {
-    background-position: 480px 480px;
+    transform: translate3d(480px, 480px, 0);
   }
 }
 

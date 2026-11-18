@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Background from "@/components/Background";
 import LogoUpright from "@/components/LogoUpright";
 import AuthCard from "@/components/auth/AuthCard";
@@ -8,6 +9,8 @@ import AuthButton from "@/components/auth/AuthButton";
 import OtpInput from "@/components/auth/OtpInput";
 
 export default function VerifyPage() {
+  const router = useRouter();
+
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center px-6 py-16">
       <Background />
@@ -15,7 +18,13 @@ export default function VerifyPage() {
         <LogoUpright className="h-full w-full" />
       </Link>
       <AuthCard eyebrow="Verifikasi" title="Kode Verifikasi">
-        <div className="flex flex-col gap-7">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            router.push("/register");
+          }}
+          className="flex flex-col gap-7"
+        >
           <p className="text-center font-mono text-sm tracking-[0.02em] text-[#c1b2d0]">
             Masukkan kode yang dikirim ke email Anda
           </p>
@@ -27,7 +36,7 @@ export default function VerifyPage() {
               Kirim ulang
             </button>
           </p>
-        </div>
+        </form>
       </AuthCard>
     </div>
   );

@@ -1,7 +1,12 @@
-export default function GoogleButton() {
+type GoogleButtonProps = {
+  onClick?: () => void;
+};
+
+export default function GoogleButton({ onClick }: GoogleButtonProps) {
   return (
     <button
       type="button"
+      onClick={onClick}
       className="relative flex h-13 items-center justify-center gap-3 overflow-hidden rounded-3xl border border-[#ebe6f0]/25 bg-[#ebe6f0]/5 px-8 font-sans text-base font-bold tracking-[0.02em] text-[#e6edf4] transition-transform hover:scale-[1.02] hover:bg-[#ebe6f0]/10 active:scale-[0.98]"
     >
       <svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg" className="shrink-0">

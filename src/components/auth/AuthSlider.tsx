@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import AuthButton from "./AuthButton";
 import AuthField from "./AuthField";
 import GoogleButton from "./GoogleButton";
@@ -11,6 +12,7 @@ type AuthSliderProps = {
 };
 
 export default function AuthSlider({ initialMode }: AuthSliderProps) {
+  const router = useRouter();
   const [mode, setMode] = useState<"login" | "register">(initialMode);
 
   // Sync the address bar without triggering a Next.js route transition, which
@@ -18,6 +20,24 @@ export default function AuthSlider({ initialMode }: AuthSliderProps) {
   const switchTo = (next: "login" | "register") => {
     setMode(next);
     window.history.replaceState(null, "", `/auth/${next}`);
+  };
+
+  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    router.push("/dashboard");
+  };
+
+  const handleRegister = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const password = String(formData.get("password") ?? "");
+    const confirmPassword = String(formData.get("confirmPassword") ?? "");
+    if (password !== confirmPassword) return;
+    router.push("/auth/verify");
+  };
+
+  const handleGoogleAuth = () => {
+    router.push("/dashboard");
   };
 
   const registerActive = mode === "register";
@@ -29,9 +49,9 @@ export default function AuthSlider({ initialMode }: AuthSliderProps) {
       {/* Mobile: single form, toggled directly (no slide) */}
       <div className="p-8 sm:hidden">
         {registerActive ? (
-          <RegisterForm onSwitch={() => switchTo("login")} />
+          <RegisterForm onSwitch={() => switchTo("login")} onSubmit={handleRegister} />
         ) : (
-          <LoginForm onSwitch={() => switchTo("register")} />
+          <LoginForm onSwitch={() => switchTo("register")} onSubmit={handleLogin} onGoogleClick={handleGoogleAuth} />
         )}
       </div>
 
@@ -45,7 +65,7 @@ export default function AuthSlider({ initialMode }: AuthSliderProps) {
           }`}
           style={registerActive ? { transform: "translateX(100%)", opacity: 0 } : undefined}
         >
-          <LoginForm onSwitch={() => switchTo("register")} />
+          <LoginForm onSwitch={() => switchTo("register")} onSubmit={handleLogin} onGoogleClick={handleGoogleAuth} />
         </div>
         <div
           className={`absolute inset-y-0 left-0 z-10 flex w-1/2 flex-col justify-center overflow-y-auto px-10 py-10 opacity-0 transition-[transform,opacity] duration-600 ease-in-out lg:px-14 ${
@@ -57,7 +77,7 @@ export default function AuthSlider({ initialMode }: AuthSliderProps) {
               : { transform: "translateX(0%)", opacity: 0 }
           }
         >
-          <RegisterForm onSwitch={() => switchTo("login")} />
+          <RegisterForm onSwitch={() => switchTo("login")} onSubmit={handleRegister} />
         </div>
 
         {/* Sliding overlay window, clipped to the inactive half.
@@ -113,9 +133,17 @@ export default function AuthSlider({ initialMode }: AuthSliderProps) {
   );
 }
 
-function LoginForm({ onSwitch }: { onSwitch: () => void }) {
+function LoginForm({
+  onSwitch,
+  onSubmit,
+  onGoogleClick,
+}: {
+  onSwitch: () => void;
+  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  onGoogleClick: () => void;
+}) {
   return (
-    <form className="mx-auto flex w-full max-w-sm flex-col gap-4">
+    <form onSubmit={onSubmit} className="mx-auto flex w-full max-w-sm flex-col gap-4">
       <h1 className="mb-1 text-center font-sans text-2xl font-bold text-[#ebe6f0] sm:text-3xl">Masuk</h1>
       <AuthField
         id="login-username"
@@ -139,7 +167,7 @@ function LoginForm({ onSwitch }: { onSwitch: () => void }) {
       />
       <AuthButton className="mt-1 w-full">Masuk</AuthButton>
       <Divider />
-      <GoogleButton />
+      <GoogleButton onClick={onGoogleClick} />
       <p className="text-center font-mono text-xs tracking-[0.02em] text-[#c1b2d0]">
         Belum punya akun?{" "}
         <button type="button" onClick={onSwitch} className="text-[#ebe6f0] underline underline-offset-4">
@@ -150,9 +178,15 @@ function LoginForm({ onSwitch }: { onSwitch: () => void }) {
   );
 }
 
-function RegisterForm({ onSwitch }: { onSwitch: () => void }) {
+function RegisterForm({
+  onSwitch,
+  onSubmit,
+}: {
+  onSwitch: () => void;
+  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+}) {
   return (
-    <form className="mx-auto flex w-full max-w-sm flex-col gap-3.5">
+    <form onSubmit={onSubmit} className="mx-auto flex w-full max-w-sm flex-col gap-3.5">
       <h1 className="mb-1 text-center font-sans text-2xl font-bold text-[#ebe6f0] sm:text-3xl">Buat Akun</h1>
       <AuthField
         id="register-username"
