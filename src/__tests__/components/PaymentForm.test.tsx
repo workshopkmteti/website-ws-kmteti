@@ -25,6 +25,8 @@ describe("PaymentForm Component", () => {
     render(<PaymentForm />);
 
     expect(screen.getByText("PAYMENT")).toBeInTheDocument();
+    expect(screen.getByText("UPLOAD THE PROOFING PAYMENT")).toBeInTheDocument();
+    expect(screen.getByText(/Upload or drag the proof here/i)).toBeInTheDocument();
     expect(screen.getByText("Pelatihan Genap - STM32")).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: /SUBMIT/i }));

@@ -47,4 +47,18 @@ describe("RegisterForm Component", () => {
     fireEvent.click(screen.getByRole("button", { name: /Sort By/i }));
     expect(screen.getByRole("button", { name: /Sort By: Z-A/i })).toBeInTheDocument();
   });
+
+  it("marks selected course row with aria-pressed and supports pagination", () => {
+    render(<RegisterForm />);
+
+    const firstRow = screen.getByRole("button", { name: /TETI Programming Week - CTF/i });
+    expect(firstRow).toHaveAttribute("aria-pressed", "false");
+
+    fireEvent.click(firstRow);
+    expect(firstRow).toHaveAttribute("aria-pressed", "true");
+
+    const nextPageBtn = screen.getByRole("button", { name: /^NEXT$/i });
+    fireEvent.click(nextPageBtn);
+    expect(screen.getByText("Bootcamp - Data Science")).toBeInTheDocument();
+  });
 });

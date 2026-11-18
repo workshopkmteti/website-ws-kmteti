@@ -64,17 +64,17 @@ export default function PaymentForm() {
   };
 
   return (
-    <section className="relative mx-auto flex w-full max-w-[420px] flex-col items-center rounded-3xl border border-white/20 bg-white/10 p-6 shadow-2xl backdrop-blur-md sm:p-10">
-      <div className="pointer-events-none absolute -top-[80px] -left-[250px] z-50 hidden scale-[0.55] sm:block">
+    <section className="relative mx-auto flex w-full max-w-[680px] flex-col items-center rounded-[32px] border-[2.5px] border-[#c6c6c6] bg-[linear-gradient(142deg,rgba(198,198,198,0.6)_3.6%,rgba(94,55,134,0.6)_90.5%)] px-4 py-8 shadow-[0_20px_60px_rgba(12,4,28,0.55)] backdrop-blur-md sm:rounded-[40px] sm:px-10 sm:py-10">
+      <div className="pointer-events-none absolute -top-14 -left-16 z-30 hidden scale-[0.52] sm:block">
         <Mascot pose="happy" tilt={-15} />
       </div>
 
-      <h1 className="relative z-10 mb-4 text-xl font-bold tracking-[0.25em] text-white">
+      <h1 className="relative z-10 mb-5 text-center font-[family-name:var(--font-montserrat)] text-2xl font-semibold tracking-wider text-[#e6edf4] sm:text-[36px]">
         PAYMENT
       </h1>
 
       {selectedCourses.length > 0 && (
-        <ul className="relative z-10 mb-5 flex w-full flex-col gap-1.5 rounded-xl border border-white/15 bg-black/25 px-4 py-3 text-xs text-[#ebe6f0]">
+        <ul className="relative z-10 mb-5 flex w-full max-w-[380px] flex-col gap-1 rounded-[14px] border border-[#c6c6c6]/40 bg-[#12062b]/45 px-4 py-2.5 text-xs text-[#e6edf4]">
           {selectedCourses.map((course) => (
             <li key={course} className="truncate font-mono">
               {course}
@@ -83,17 +83,17 @@ export default function PaymentForm() {
         </ul>
       )}
 
-      <div className="relative z-10 mb-8 flex aspect-[4/5.5] w-full items-center justify-center overflow-hidden rounded-xl bg-white p-2">
+      <div className="relative z-10 mb-6 flex aspect-square w-full max-w-[380px] items-center justify-center overflow-hidden rounded-[16px] bg-[#d9d9d9] p-3 shadow-md">
         <Image
           src="/QRIS.jpeg"
           alt="QRIS Barcode"
           fill
-          className="scale-[1] rounded-xl object-cover"
+          className="rounded-[12px] object-contain p-2"
         />
       </div>
 
-      <div className="relative z-10 mb-6 flex w-full flex-col items-center">
-        <div className="z-10 w-full rounded-t-xl border border-white/10 bg-gradient-to-b from-[#1c234a] to-[#0c102a] py-3 text-center text-[11px] font-bold tracking-wider text-white shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+      <div className="relative z-10 mb-6 flex w-full max-w-[380px] flex-col items-center overflow-hidden rounded-[16px] bg-[#d9d9d9] pb-3 shadow-md">
+        <div className="z-10 w-full rounded-[16px] border-[2.5px] border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-4 py-2.5 text-center font-[family-name:var(--font-montserrat)] text-xs font-semibold tracking-wide text-[#e6edf4] shadow-[0_0_16px_4px_rgba(1,29,62,0.36),inset_2px_4px_4px_rgba(0,0,0,0.25)] sm:text-sm">
           UPLOAD THE PROOFING PAYMENT
         </div>
 
@@ -125,7 +125,7 @@ export default function PaymentForm() {
             const file = e.dataTransfer.files?.[0];
             if (file) handleFile(file);
           }}
-          className="relative -mt-1 flex h-28 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-b-xl bg-[#e5e7eb] text-[#8e8e8e] transition-colors hover:bg-[#d1d5db]"
+          className="relative mx-3 mt-2.5 flex h-28 w-[calc(100%-24px)] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[14px] border border-[#c3c3c3] bg-[#d9d9d9] text-[#011d3e]/40 transition-colors hover:bg-[#cfcfcf]"
         >
           {preview ? (
             <Image
@@ -136,15 +136,17 @@ export default function PaymentForm() {
             />
           ) : (
             <>
-              <span className="mb-1 text-3xl">+</span>
-              <span className="text-[10px] font-medium uppercase">Upload or drag the proof here</span>
+              <span className="text-4xl leading-none font-normal">+</span>
+              <span className="mt-1 font-[family-name:var(--font-montserrat)] text-xs">
+                Upload or drag the proof here
+              </span>
             </>
           )}
         </div>
       </div>
 
       {error && (
-        <p role="alert" className="relative z-10 mb-4 text-center font-mono text-xs text-red-300">
+        <p role="alert" className="relative z-10 mb-4 text-center font-mono text-xs text-red-200">
           {error}
         </p>
       )}
@@ -153,7 +155,7 @@ export default function PaymentForm() {
         type="button"
         onClick={handleSubmit}
         disabled={pending}
-        className="relative z-10 flex h-10 w-[70%] cursor-pointer items-center justify-center rounded-xl border-[1.2px] border-[#ebe6f0] bg-[#1e0339] font-mono text-xs font-bold tracking-[0.1em] text-[#ebe6f0] shadow-[0_0_15px_rgba(30,3,57,0.5)] transition-all hover:scale-105 disabled:opacity-60"
+        className="relative z-10 flex h-12 min-w-[200px] cursor-pointer items-center justify-center rounded-[16px] border-[2.5px] border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-8 font-[family-name:var(--font-montserrat)] text-lg font-semibold tracking-wider text-[#e6edf4] shadow-[0_0_16px_4px_rgba(1,29,62,0.36),inset_2px_4px_4px_rgba(0,0,0,0.25)] transition-all hover:scale-[1.02] hover:brightness-110 disabled:opacity-60 sm:min-w-[240px] sm:text-[24px]"
       >
         {pending ? "UPLOADING..." : "SUBMIT"}
       </button>

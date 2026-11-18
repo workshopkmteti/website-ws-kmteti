@@ -39,6 +39,7 @@ export default function DashboardShell({
         <Topbar
           notificationCount={3}
           onMenuClick={() => setSidebarOpen(true)}
+          variant={activeHref === "/dashboard" ? "search" : "workshop"}
         />
         <main className="dashboard-content">{children}</main>
       </div>
