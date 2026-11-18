@@ -1,5 +1,5 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import {
   isCertificateEligible,
   isValidFinalProjectUrl,
@@ -7,6 +7,12 @@ import {
 } from "@/features/lms/eligibility";
 import MaterialsView from "@/features/lms/MaterialsView";
 import CertificateView from "@/features/lms/CertificateView";
+
+const submitFinalProjectMock = vi.fn();
+
+vi.mock("@/actions/lms", () => ({
+  submitFinalProjectAction: (...args: unknown[]) => submitFinalProjectMock(...args),
+}));
 
 describe("LMS Eligibility & Validation", () => {
   it("enforces final project submission and max 2 absences out of 6", () => {
@@ -48,7 +54,12 @@ describe("MaterialsView", () => {
 });
 
 describe("CertificateView", () => {
-  it("validates final project URL and unlocks certificate download when eligible", () => {
+  beforeEach(() => {
+    submitFinalProjectMock.mockReset();
+    submitFinalProjectMock.mockResolvedValue({ ok: true });
+  });
+
+  it("validates final project URL, calls submitFinalProjectAction, and unlocks certificate download when eligible", async () => {
     render(<CertificateView />);
 
     const downloadBtn = screen.getByRole("button", { name: /Unduh Sertifikat/i });
@@ -58,10 +69,17 @@ describe("CertificateView", () => {
     fireEvent.change(urlInput, { target: { value: "https://invalid-site.com/file" } });
     fireEvent.click(screen.getByRole("button", { name: /Kumpulkan Final Project/i }));
     expect(screen.getByRole("alert")).toHaveTextContent(/Google Drive, YouTube, atau GitHub/i);
+    expect(submitFinalProjectMock).not.toHaveBeenCalled();
 
     fireEvent.change(urlInput, { target: { value: "https://github.com/kmteti/final-project" } });
     fireEvent.click(screen.getByRole("button", { name: /Kumpulkan Final Project/i }));
 
-    expect(screen.getByRole("button", { name: /Unduh Sertifikat/i })).toBeEnabled();
+    await waitFor(() => {
+      expect(submitFinalProjectMock).toHaveBeenCalledWith(
+        "reg-default",
+        "https://github.com/kmteti/final-project",
+      );
+      expect(screen.getByRole("button", { name: /Unduh Sertifikat/i })).toBeEnabled();
+    });
   });
 });

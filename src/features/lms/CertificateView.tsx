@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { Award, CheckCircle2, Lock } from "lucide-react";
+import { submitFinalProjectAction } from "@/actions/lms";
 import {
   MAX_ABSENCES_ALLOWED,
   TOTAL_SESSIONS,
@@ -9,23 +10,41 @@ import {
   isValidFinalProjectUrl,
 } from "./eligibility";
 
-export default function CertificateView() {
+type CertificateViewProps = {
+  registrationId?: string;
+};
+
+export default function CertificateView({
+  registrationId = "reg-default",
+}: CertificateViewProps) {
   const [projectUrl, setProjectUrl] = useState("");
   const [submittedUrl, setSubmittedUrl] = useState<string | null>(null);
   const [absences] = useState(1);
   const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
 
   const eligible = isCertificateEligible(Boolean(submittedUrl), absences);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isValidFinalProjectUrl(projectUrl)) {
       setError("Gunakan link Google Drive, YouTube, atau GitHub.");
       return;
     }
     setError(null);
-    setSubmittedUrl(projectUrl.trim());
+    setPending(true);
+    try {
+      const trimmed = projectUrl.trim();
+      const res = await submitFinalProjectAction(registrationId, trimmed);
+      if (!res.ok) {
+        setError(res.error ?? "Gagal mengumpulkan final project.");
+        return;
+      }
+      setSubmittedUrl(trimmed);
+    } finally {
+      setPending(false);
+    }
   };
 
   return (
@@ -67,9 +86,10 @@ export default function CertificateView() {
 
               <button
                 type="submit"
-                className="h-11 cursor-pointer rounded-[10px] bg-[#7C3AED] px-5 font-mono text-xs font-bold text-white transition-all hover:bg-[#6B21A8] active:scale-[0.98]"
+                disabled={pending}
+                className="h-11 cursor-pointer rounded-[10px] bg-[#7C3AED] px-5 font-mono text-xs font-bold text-white transition-all hover:bg-[#6B21A8] active:scale-[0.98] disabled:opacity-60"
               >
-                Kumpulkan Final Project
+                {pending ? "Menyimpan..." : "Kumpulkan Final Project"}
               </button>
             </form>
           </div>

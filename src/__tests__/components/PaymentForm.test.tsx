@@ -1,18 +1,24 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import PaymentForm from "@/components/PaymentForm";
 
 const pushMock = vi.fn();
+const submitRegistrationMock = vi.fn();
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: pushMock }),
   useSearchParams: () => new URLSearchParams("courses=Pelatihan%20Genap%20-%20STM32"),
 }));
 
+vi.mock("@/actions/registration", () => ({
+  submitRegistrationAction: (...args: unknown[]) => submitRegistrationMock(...args),
+}));
+
 describe("PaymentForm Component", () => {
   beforeEach(() => {
-    pushMock.mockReset();
+    vi.clearAllMocks();
     globalThis.URL.createObjectURL = vi.fn(() => "blob:mock-preview");
+    submitRegistrationMock.mockResolvedValue({ ok: true });
   });
 
   it("renders selected courses and rejects submit without proof image", () => {
@@ -23,10 +29,11 @@ describe("PaymentForm Component", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /SUBMIT/i }));
     expect(screen.getByRole("alert")).toHaveTextContent(/upload bukti pembayaran/i);
+    expect(submitRegistrationMock).not.toHaveBeenCalled();
     expect(pushMock).not.toHaveBeenCalled();
   });
 
-  it("navigates to /dashboard when submitting with a valid image under 1 MB", () => {
+  it("submits via submitRegistrationAction and navigates to /dashboard on success", async () => {
     render(<PaymentForm />);
 
     const fileInput = screen.getByLabelText(/Upload bukti pembayaran/i);
@@ -34,6 +41,10 @@ describe("PaymentForm Component", () => {
     fireEvent.change(fileInput, { target: { files: [validFile] } });
 
     fireEvent.click(screen.getByRole("button", { name: /SUBMIT/i }));
-    expect(pushMock).toHaveBeenCalledWith("/dashboard");
+
+    await waitFor(() => {
+      expect(submitRegistrationMock).toHaveBeenCalledTimes(1);
+      expect(pushMock).toHaveBeenCalledWith("/dashboard");
+    });
   });
 });

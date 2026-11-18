@@ -2,10 +2,18 @@
 
 import { useState, type FormEvent } from "react";
 import {
+  deleteDataByTypeAction,
+  recordAttendanceAction,
+  runManualBackupAction,
+  uploadMaterialAction,
+  verifyPaymentAction,
+} from "@/actions/admin";
+import {
   TOTAL_SESSIONS,
   isCertificateEligible,
   isValidMaterialFileSize,
 } from "@/features/lms/eligibility";
+import type { DeletableTable } from "@/types/backend";
 
 type PaymentStatus = "Menunggu" | "Terkonfirmasi" | "Ditolak";
 type AdminTab = "participants" | "attendance" | "materials" | "backup";
@@ -41,17 +49,20 @@ const INITIAL_PARTICIPANTS: ParticipantRow[] = [
   },
 ];
 
-const DELETE_TARGETS = [
-  "Bukti Pembayaran",
-  "Log Absensi",
-  "Data Peserta",
-] as const;
+const DELETE_TARGET_MAP: Record<string, DeletableTable> = {
+  "Bukti Pembayaran": "registrations",
+  "Log Absensi": "attendance_records",
+  "Data Peserta": "registrations",
+};
+
+const DELETE_TARGETS = Object.keys(DELETE_TARGET_MAP);
 
 export default function AdminDashboardView() {
   const [activeTab, setActiveTab] = useState<AdminTab>("participants");
   const [participants, setParticipants] = useState<ParticipantRow[]>(INITIAL_PARTICIPANTS);
   const [materialTitle, setMaterialTitle] = useState("");
   const [meetUrl, setMeetUrl] = useState("");
+  const [materialFile, setMaterialFile] = useState<File | null>(null);
   const [materialError, setMaterialError] = useState<string | null>(null);
   const [materialMessage, setMaterialMessage] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<string>(DELETE_TARGETS[0]);
@@ -67,20 +78,36 @@ export default function AdminDashboardView() {
     setLogs((prev) => [entry, ...prev]);
   };
 
-  const updatePaymentStatus = (id: string, status: PaymentStatus) => {
+  const updatePaymentStatus = async (id: string, status: PaymentStatus) => {
+    const apiStatus = status === "Terkonfirmasi" ? "approved" : "rejected";
+    const res = await verifyPaymentAction(id, apiStatus);
+    if (!res.ok) {
+      appendLog(`Gagal mengubah status ${id}: ${res.error ?? "error"}`);
+      return;
+    }
     setParticipants((prev) =>
       prev.map((p) => (p.id === id ? { ...p, paymentStatus: status } : p)),
     );
     appendLog(`${id} → ${status}`);
   };
 
-  const toggleSession = (id: string, sessionIndex: number) => {
+  const toggleSession = async (id: string, sessionIndex: number) => {
+    const target = participants.find((p) => p.id === id);
+    if (!target) return;
+    const nextPresent = !target.sessions[sessionIndex];
+
+    const res = await recordAttendanceAction(id, sessionIndex + 1, nextPresent);
+    if (!res.ok) {
+      appendLog(`Gagal update absensi ${id}: ${res.error ?? "error"}`);
+      return;
+    }
+
     setParticipants((prev) =>
       prev.map((p) =>
         p.id === id
           ? {
               ...p,
-              sessions: p.sessions.map((present, i) => (i === sessionIndex ? !present : present)),
+              sessions: p.sessions.map((present, i) => (i === sessionIndex ? nextPresent : present)),
             }
           : p,
       ),
@@ -92,31 +119,58 @@ export default function AdminDashboardView() {
     if (!isValidMaterialFileSize(file.size)) {
       setMaterialError("Maksimal 20 MB.");
       setMaterialMessage(null);
+      setMaterialFile(null);
       return;
     }
     setMaterialError(null);
+    setMaterialFile(file);
     setMaterialMessage(`${file.name} siap diunggah.`);
   };
 
-  const handleMaterialSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleMaterialSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!materialTitle.trim() || !meetUrl.trim()) {
       setMaterialError("Judul dan link Meet wajib diisi.");
       return;
     }
+
+    if (materialFile) {
+      const formData = new FormData();
+      formData.append("title", materialTitle.trim());
+      formData.append("meetUrl", meetUrl.trim());
+      formData.append("file", materialFile);
+      const res = await uploadMaterialAction(formData);
+      if (!res.ok) {
+        setMaterialError(res.error ?? "Gagal mengunggah materi.");
+        return;
+      }
+    }
+
     setMaterialError(null);
     setMaterialMessage(`"${materialTitle.trim()}" tersimpan.`);
     appendLog(`Materi: ${materialTitle.trim()}`);
     setMaterialTitle("");
     setMeetUrl("");
+    setMaterialFile(null);
   };
 
-  const handleBackup = () => {
+  const handleBackup = async () => {
+    const res = await runManualBackupAction(`backup-${Date.now()}`);
+    if (!res.ok) {
+      appendLog(`Backup gagal: ${res.error ?? "error"}`);
+      return;
+    }
     appendLog("Backup ke Google Sheets & Drive berhasil.");
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
+    const table = DELETE_TARGET_MAP[deleteTarget] ?? "attendance_records";
+    const res = await deleteDataByTypeAction(table, `delete-${table}-${Date.now()}`);
     setConfirmOpen(false);
+    if (!res.ok) {
+      appendLog(`Hapus gagal: ${res.error ?? "error"}`);
+      return;
+    }
     appendLog(`Data berhasil dihapus: ${deleteTarget}.`);
   };
 

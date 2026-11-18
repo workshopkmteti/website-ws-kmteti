@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import { submitRegistrationAction } from "@/actions/registration";
 import Mascot from "./Mascot";
 
 export default function PaymentForm() {
@@ -16,8 +17,10 @@ export default function PaymentForm() {
         .filter(Boolean)
     : [];
 
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = (file: File) => {
@@ -32,17 +35,32 @@ export default function PaymentForm() {
     }
 
     setError(null);
+    setSelectedFile(file);
     const imageUrl = URL.createObjectURL(file);
     setPreview(imageUrl);
   };
 
-  const handleSubmit = () => {
-    if (!preview) {
+  const handleSubmit = async () => {
+    if (!selectedFile) {
       setError("Silakan upload bukti pembayaran terlebih dahulu.");
       return;
     }
     setError(null);
-    router.push("/dashboard");
+    setPending(true);
+    try {
+      const formData = new FormData();
+      formData.append("courses", selectedCourses.join(",") || "Workshop KMTETI");
+      formData.append("proof", selectedFile);
+
+      const res = await submitRegistrationAction(formData);
+      if (!res.ok) {
+        setError(res.error ?? "Gagal mengirim bukti pembayaran.");
+        return;
+      }
+      router.push("/dashboard");
+    } finally {
+      setPending(false);
+    }
   };
 
   return (
@@ -134,9 +152,10 @@ export default function PaymentForm() {
       <button
         type="button"
         onClick={handleSubmit}
-        className="relative z-10 flex h-10 w-[70%] cursor-pointer items-center justify-center rounded-xl border-[1.2px] border-[#ebe6f0] bg-[#1e0339] font-mono text-xs font-bold tracking-[0.1em] text-[#ebe6f0] shadow-[0_0_15px_rgba(30,3,57,0.5)] transition-all hover:scale-105"
+        disabled={pending}
+        className="relative z-10 flex h-10 w-[70%] cursor-pointer items-center justify-center rounded-xl border-[1.2px] border-[#ebe6f0] bg-[#1e0339] font-mono text-xs font-bold tracking-[0.1em] text-[#ebe6f0] shadow-[0_0_15px_rgba(30,3,57,0.5)] transition-all hover:scale-105 disabled:opacity-60"
       >
-        SUBMIT
+        {pending ? "UPLOADING..." : "SUBMIT"}
       </button>
     </section>
   );
