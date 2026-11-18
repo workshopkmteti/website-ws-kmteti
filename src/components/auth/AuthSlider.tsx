@@ -2,6 +2,11 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import {
+  loginAction,
+  registerAction,
+  signInWithGoogleAction,
+} from "@/actions/auth";
 import AuthButton from "./AuthButton";
 import AuthField from "./AuthField";
 import GoogleButton from "./GoogleButton";
@@ -14,30 +19,70 @@ type AuthSliderProps = {
 export default function AuthSlider({ initialMode }: AuthSliderProps) {
   const router = useRouter();
   const [mode, setMode] = useState<"login" | "register">(initialMode);
+  const [loginError, setLoginError] = useState<string | null>(null);
+  const [registerError, setRegisterError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
 
   // Sync the address bar without triggering a Next.js route transition, which
   // would remount this component mid-animation and cut the slide short.
   const switchTo = (next: "login" | "register") => {
     setMode(next);
+    setLoginError(null);
+    setRegisterError(null);
     window.history.replaceState(null, "", `/auth/${next}`);
   };
 
-  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push("/dashboard");
+    setLoginError(null);
+    setPending(true);
+    try {
+      const formData = new FormData(e.currentTarget);
+      const res = await loginAction(formData);
+      if (!res.ok) {
+        setLoginError(res.error ?? "Gagal masuk.");
+        return;
+      }
+      router.push("/dashboard");
+    } finally {
+      setPending(false);
+    }
   };
 
-  const handleRegister = (e: FormEvent<HTMLFormElement>) => {
+  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setRegisterError(null);
     const formData = new FormData(e.currentTarget);
+    const email = String(formData.get("email") ?? "").trim();
     const password = String(formData.get("password") ?? "");
     const confirmPassword = String(formData.get("confirmPassword") ?? "");
-    if (password !== confirmPassword) return;
-    router.push("/auth/verify");
+
+    if (password !== confirmPassword) {
+      setRegisterError("Password dan konfirmasi password tidak cocok.");
+      return;
+    }
+
+    setPending(true);
+    try {
+      const res = await registerAction(formData);
+      if (!res.ok) {
+        setRegisterError(res.error ?? "Gagal mendaftar.");
+        return;
+      }
+      router.push(`/auth/verify?email=${encodeURIComponent(email)}`);
+    } finally {
+      setPending(false);
+    }
   };
 
-  const handleGoogleAuth = () => {
-    router.push("/dashboard");
+  const handleGoogleAuth = async () => {
+    setLoginError(null);
+    const res = await signInWithGoogleAction(window.location.origin);
+    if (!res.ok || !res.data?.url) {
+      setLoginError(res.error ?? "Gagal memulai login Google.");
+      return;
+    }
+    window.location.assign(res.data.url);
   };
 
   const registerActive = mode === "register";
@@ -49,9 +94,20 @@ export default function AuthSlider({ initialMode }: AuthSliderProps) {
       {/* Mobile: single form, toggled directly (no slide) */}
       <div className="p-8 sm:hidden">
         {registerActive ? (
-          <RegisterForm onSwitch={() => switchTo("login")} onSubmit={handleRegister} />
+          <RegisterForm
+            onSwitch={() => switchTo("login")}
+            onSubmit={handleRegister}
+            error={registerError}
+            pending={pending}
+          />
         ) : (
-          <LoginForm onSwitch={() => switchTo("register")} onSubmit={handleLogin} onGoogleClick={handleGoogleAuth} />
+          <LoginForm
+            onSwitch={() => switchTo("register")}
+            onSubmit={handleLogin}
+            onGoogleClick={handleGoogleAuth}
+            error={loginError}
+            pending={pending}
+          />
         )}
       </div>
 
@@ -65,7 +121,13 @@ export default function AuthSlider({ initialMode }: AuthSliderProps) {
           }`}
           style={registerActive ? { transform: "translateX(100%)", opacity: 0 } : undefined}
         >
-          <LoginForm onSwitch={() => switchTo("register")} onSubmit={handleLogin} onGoogleClick={handleGoogleAuth} />
+          <LoginForm
+            onSwitch={() => switchTo("register")}
+            onSubmit={handleLogin}
+            onGoogleClick={handleGoogleAuth}
+            error={loginError}
+            pending={pending}
+          />
         </div>
         <div
           className={`absolute inset-y-0 left-0 z-10 flex w-1/2 flex-col justify-center overflow-y-auto px-10 py-10 opacity-0 transition-[transform,opacity] duration-600 ease-in-out lg:px-14 ${
@@ -77,7 +139,12 @@ export default function AuthSlider({ initialMode }: AuthSliderProps) {
               : { transform: "translateX(0%)", opacity: 0 }
           }
         >
-          <RegisterForm onSwitch={() => switchTo("login")} onSubmit={handleRegister} />
+          <RegisterForm
+            onSwitch={() => switchTo("login")}
+            onSubmit={handleRegister}
+            error={registerError}
+            pending={pending}
+          />
         </div>
 
         {/* Sliding overlay window, clipped to the inactive half.
@@ -137,22 +204,26 @@ function LoginForm({
   onSwitch,
   onSubmit,
   onGoogleClick,
+  error,
+  pending,
 }: {
   onSwitch: () => void;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
   onGoogleClick: () => void;
+  error: string | null;
+  pending: boolean;
 }) {
   return (
     <form onSubmit={onSubmit} className="mx-auto flex w-full max-w-sm flex-col gap-4">
       <h1 className="mb-1 text-center font-sans text-2xl font-bold text-[#ebe6f0] sm:text-3xl">Masuk</h1>
       <AuthField
-        id="login-username"
-        name="username"
-        label="Username"
-        type="text"
-        placeholder="Masukkan username Anda"
-        autoComplete="username"
-        icon={<UserIcon />}
+        id="login-email"
+        name="email"
+        label="Email"
+        type="email"
+        placeholder="nama@email.com"
+        autoComplete="email"
+        icon={<MailIcon />}
         required
       />
       <AuthField
@@ -165,7 +236,14 @@ function LoginForm({
         icon={<LockIcon />}
         required
       />
-      <AuthButton className="mt-1 w-full">Masuk</AuthButton>
+      {error && (
+        <p role="alert" className="font-mono text-xs text-rose-300">
+          {error}
+        </p>
+      )}
+      <AuthButton className="mt-1 w-full" disabled={pending}>
+        {pending ? "Memproses..." : "Masuk"}
+      </AuthButton>
       <Divider />
       <GoogleButton onClick={onGoogleClick} />
       <p className="text-center font-mono text-xs tracking-[0.02em] text-[#c1b2d0]">
@@ -181,9 +259,13 @@ function LoginForm({
 function RegisterForm({
   onSwitch,
   onSubmit,
+  error,
+  pending,
 }: {
   onSwitch: () => void;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  error: string | null;
+  pending: boolean;
 }) {
   return (
     <form onSubmit={onSubmit} className="mx-auto flex w-full max-w-sm flex-col gap-3.5">
@@ -228,7 +310,14 @@ function RegisterForm({
         icon={<LockIcon />}
         required
       />
-      <AuthButton className="mt-1 w-full">Daftar</AuthButton>
+      {error && (
+        <p role="alert" className="font-mono text-xs text-rose-300">
+          {error}
+        </p>
+      )}
+      <AuthButton className="mt-1 w-full" disabled={pending}>
+        {pending ? "Memproses..." : "Daftar"}
+      </AuthButton>
       <p className="text-center font-mono text-xs tracking-[0.02em] text-[#c1b2d0]">
         Sudah punya akun?{" "}
         <button type="button" onClick={onSwitch} className="text-[#ebe6f0] underline underline-offset-4">

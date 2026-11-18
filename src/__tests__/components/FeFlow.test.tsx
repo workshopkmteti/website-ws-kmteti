@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import Cta from "@/components/Cta";
 import Sidebar from "@/components/Sidebar";
@@ -8,6 +8,12 @@ const pushMock = vi.fn();
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: pushMock }),
+}));
+
+vi.mock("@/actions/auth", () => ({
+  loginAction: vi.fn(async () => ({ ok: true })),
+  registerAction: vi.fn(async () => ({ ok: true })),
+  signInWithGoogleAction: vi.fn(async () => ({ ok: true, data: { url: "https://accounts.google.com" } })),
 }));
 
 describe("FE Flow Integration", () => {
@@ -45,12 +51,14 @@ describe("FE Flow Integration", () => {
     expect(screen.getByRole("link", { name: /Profil/i })).toHaveAttribute("href", "/profile");
   });
 
-  it("navigates to /dashboard on LoginForm submit and /auth/verify on RegisterForm submit", () => {
+  it("navigates to /dashboard on LoginForm submit", async () => {
     const { container } = render(<AuthSlider initialMode="login" />);
 
     const loginForm = container.querySelector("form");
     expect(loginForm).not.toBeNull();
     fireEvent.submit(loginForm!);
-    expect(pushMock).toHaveBeenCalledWith("/dashboard");
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith("/dashboard");
+    });
   });
 });

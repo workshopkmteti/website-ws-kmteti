@@ -2,19 +2,22 @@
 
 import { useRef, useState } from "react";
 
-const DIGIT_COUNT = 5;
+const DIGIT_COUNT = 6;
 
 type OtpInputProps = {
+  onChange?: (code: string) => void;
   onComplete?: (code: string) => void;
 };
 
-export default function OtpInput({ onComplete }: OtpInputProps) {
+export default function OtpInput({ onChange, onComplete }: OtpInputProps) {
   const [digits, setDigits] = useState<string[]>(Array(DIGIT_COUNT).fill(""));
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
   const commit = (next: string[]) => {
     setDigits(next);
-    if (next.every((d) => d !== "")) onComplete?.(next.join(""));
+    const joined = next.join("");
+    onChange?.(joined);
+    if (next.every((d) => d !== "")) onComplete?.(joined);
   };
 
   const handleChange = (index: number, value: string) => {
