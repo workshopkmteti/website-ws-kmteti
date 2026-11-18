@@ -4,6 +4,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { ActionResult } from "@/types/backend";
 
 const MAX_PROOF_SIZE_BYTES = 1024 * 1024;
+const ALLOWED_PROOF_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 export async function submitRegistrationAction(
   formData: FormData,
@@ -23,8 +24,8 @@ export async function submitRegistrationAction(
     return { ok: false, error: "Ukuran file maksimal 1 MB." };
   }
 
-  if (!proof.type.startsWith("image/")) {
-    return { ok: false, error: "Bukti pembayaran harus berupa gambar." };
+  if (!ALLOWED_PROOF_TYPES.has(proof.type)) {
+    return { ok: false, error: "Bukti pembayaran harus berupa gambar JPG, PNG, atau WebP." };
   }
 
   const supabase = await createSupabaseServerClient();

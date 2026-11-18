@@ -42,7 +42,16 @@ function makeAdminQueryChain() {
   const chain = {
     select: vi.fn(() => chain),
     eq: vi.fn(() => chain),
-    single: vi.fn(async () => ({ data: { role: "admin", email: "peserta@ugm.ac.id", full_name: "Alya" }, error: null })),
+    single: vi.fn(async () => ({
+      data: {
+        role: "admin",
+        user_id: "peserta-1",
+        program_title: "IMAGE PROCESSING",
+        email: "peserta@ugm.ac.id",
+        full_name: "Alya",
+      },
+      error: null,
+    })),
     update: vi.fn(() => chain),
     insert: vi.fn(async () => ({ error: null })),
     upsert: vi.fn(async () => ({ error: null })),

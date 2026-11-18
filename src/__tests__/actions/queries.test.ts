@@ -102,26 +102,34 @@ describe("Supabase Server Queries", () => {
   });
 
   it("maps admin participants with 6-session attendance array", async () => {
-    mockFrom.mockReturnValueOnce({
-      select: () => ({
-        order: async () => ({
-          data: [
-            {
-              id: "reg-1",
-              program_title: "IMAGE PROCESSING",
-              payment_status: "approved",
-              profiles: { full_name: "Alya", email: "alya@ugm.ac.id" },
-              attendance_records: [
-                { session_number: 1, present: true },
-                { session_number: 2, present: false },
-              ],
-              final_projects: [{ id: "fp-1" }],
-            },
-          ],
-          error: null,
+    mockFrom
+      .mockReturnValueOnce({
+        select: () => ({
+          eq: () => ({
+            maybeSingle: async () => ({ data: { role: "admin" }, error: null }),
+          }),
         }),
-      }),
-    });
+      })
+      .mockReturnValueOnce({
+        select: () => ({
+          order: async () => ({
+            data: [
+              {
+                id: "reg-1",
+                program_title: "IMAGE PROCESSING",
+                payment_status: "approved",
+                profiles: { full_name: "Alya", email: "alya@ugm.ac.id" },
+                attendance_records: [
+                  { session_number: 1, present: true },
+                  { session_number: 2, present: false },
+                ],
+                final_projects: [{ id: "fp-1" }],
+              },
+            ],
+            error: null,
+          }),
+        }),
+      });
 
     const rows = await getAdminParticipantsData();
     expect(rows).toHaveLength(1);

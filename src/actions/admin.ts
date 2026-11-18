@@ -43,20 +43,22 @@ export async function verifyPaymentAction(
   if ("error" in gate) return { ok: false, error: gate.error };
 
   const admin = createSupabaseAdminClient();
-  const { error } = await admin
+  const { data: reg, error } = await admin
     .from("registrations")
     .update({ payment_status: status })
-    .eq("id", registrationId);
+    .eq("id", registrationId)
+    .select("user_id, program_title")
+    .single();
 
   if (error) {
     return { ok: false, error: error.message };
   }
 
-  if (status === "approved") {
+  if (status === "approved" && reg?.user_id) {
     const { data: participant } = await admin
       .from("profiles")
       .select("email, full_name")
-      .eq("id", gate.userId)
+      .eq("id", reg.user_id)
       .single();
 
     if (participant?.email) {
@@ -64,7 +66,7 @@ export async function verifyPaymentAction(
         await sendRegistrationConfirmedEmail({
           to: participant.email,
           participantName: participant.full_name || "Peserta",
-          programTitle: "Workshop KMTETI",
+          programTitle: reg.program_title || "Workshop KMTETI",
           whatsappGroupUrl: process.env.DEFAULT_WHATSAPP_GROUP_URL ?? "https://chat.whatsapp.com/",
         });
       } catch {

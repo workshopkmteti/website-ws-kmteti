@@ -163,6 +163,20 @@ export async function getCertificateDataForUser(): Promise<{
 
 export async function getAdminParticipantsData(): Promise<ParticipantRow[]> {
   try {
+    const supabase = await createSupabaseServerClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return [];
+
+    const { data: callerProfile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (callerProfile?.role !== "admin") return [];
+
     const admin = createSupabaseAdminClient();
     const { data } = await admin
       .from("registrations")
