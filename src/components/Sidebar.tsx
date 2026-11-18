@@ -25,13 +25,16 @@ const IMAGES = {
 const NAV_PRIMARY: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", iconSrc: IMAGES.dashboard, isActive: true },
   { label: "Pelatihan", href: "/register", iconSrc: IMAGES.pelatihan },
-  { label: "Absensi", href: "/attendance", iconSrc: IMAGES.materi },
+  { label: "Materi", href: "/materials", iconSrc: IMAGES.materi },
+  { label: "Absensi", href: "/attendance", iconSrc: IMAGES.jadwal },
   { label: "Penugasan", href: "/assignment", iconSrc: IMAGES.penugasan },
+  { label: "Sertifikat", href: "/certificate", iconSrc: IMAGES.pengumuman },
   { label: "Kompetisi", href: "/competition", iconSrc: IMAGES.kompetisi },
-  { label: "Team Match", href: "/team-match", iconSrc: IMAGES.pengumuman },
+  { label: "Team Match", href: "/team-match", iconSrc: IMAGES.help },
 ];
 
 const NAV_SECONDARY: NavItem[] = [
+  { label: "Admin", href: "/admin", iconSrc: IMAGES.settings },
   { label: "Profil", href: "/profile", iconSrc: IMAGES.settings },
 ];
 

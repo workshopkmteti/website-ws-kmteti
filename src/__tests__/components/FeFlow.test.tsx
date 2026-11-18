@@ -35,10 +35,13 @@ describe("FE Flow Integration", () => {
 
     expect(screen.getByRole("link", { name: /Dashboard/i })).toHaveAttribute("href", "/dashboard");
     expect(screen.getByRole("link", { name: /Pelatihan/i })).toHaveAttribute("href", "/register");
+    expect(screen.getByRole("link", { name: /Materi/i })).toHaveAttribute("href", "/materials");
     expect(screen.getByRole("link", { name: /Absensi/i })).toHaveAttribute("href", "/attendance");
     expect(screen.getByRole("link", { name: /Penugasan/i })).toHaveAttribute("href", "/assignment");
+    expect(screen.getByRole("link", { name: /Sertifikat/i })).toHaveAttribute("href", "/certificate");
     expect(screen.getByRole("link", { name: /Kompetisi/i })).toHaveAttribute("href", "/competition");
     expect(screen.getByRole("link", { name: /Team Match/i })).toHaveAttribute("href", "/team-match");
+    expect(screen.getByRole("link", { name: /Admin/i })).toHaveAttribute("href", "/admin");
     expect(screen.getByRole("link", { name: /Profil/i })).toHaveAttribute("href", "/profile");
   });
 
