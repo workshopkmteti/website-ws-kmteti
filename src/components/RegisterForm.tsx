@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ArrowDownUp, ChevronDown, Search } from "lucide-react";
 import Mascot from "./Mascot";
 
 const COURSES = [
@@ -96,42 +97,45 @@ export default function RegisterForm({ initialCourses }: RegisterFormProps) {
   const filterLabel = selectedCategory === "All" ? "Filter" : `Filter: ${selectedCategory}`;
 
   return (
-    <section className="relative mx-auto flex w-full max-w-[460px] flex-col items-center rounded-3xl border border-white/20 bg-white/10 p-6 shadow-2xl backdrop-blur-md sm:p-10">
-      <div className="pointer-events-none absolute -top-[80px] -left-[250px] z-50 hidden scale-[0.55] sm:block">
+    <section className="relative mx-auto flex w-full max-w-[820px] flex-col items-center rounded-[32px] border-[2.5px] border-[#c6c6c6] bg-[linear-gradient(142deg,rgba(198,198,198,0.6)_3.6%,rgba(94,55,134,0.6)_90.5%)] px-4 py-8 shadow-[0_20px_60px_rgba(12,4,28,0.55)] backdrop-blur-md sm:rounded-[40px] sm:px-10 sm:py-10">
+      <div className="pointer-events-none absolute -top-14 -left-16 z-30 hidden scale-[0.52] sm:block">
         <Mascot pose="happy" tilt={-15} />
       </div>
 
-      <h1 className="relative z-10 mb-4 text-center text-sm font-bold tracking-[0.1em] text-white uppercase sm:text-base">
+      <h1 className="relative z-10 mb-5 text-center font-[family-name:var(--font-montserrat)] text-lg font-semibold tracking-wide text-[#e6edf4] uppercase sm:text-[26px]">
         CHOOSE THE COURSE/COMPETITION
       </h1>
 
-      <div className="relative z-10 mb-4 flex w-full flex-wrap justify-center gap-2 sm:gap-3">
+      <div className="relative z-10 mb-6 flex w-full max-w-[520px] flex-wrap items-center justify-center gap-2.5 sm:flex-nowrap sm:gap-3">
         <button
           type="button"
           onClick={cycleSort}
-          className="flex items-center gap-2 rounded-full border border-white/10 bg-black/30 px-4 py-1.5 text-[10px] text-gray-200 transition-colors hover:bg-black/50"
+          className="flex cursor-pointer items-center justify-center gap-2 rounded-[14px] border border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-4 py-1.5 font-[family-name:var(--font-quicksand)] text-xs font-bold tracking-[0.02em] text-[#e6edf4] shadow-[0_4px_10px_rgba(0,0,0,0.25)] transition hover:brightness-110 sm:text-sm"
         >
-          {sortLabel} <span className="text-[7px]">▼</span>
+          <span>{sortLabel}</span>
+          <ArrowDownUp className="size-3.5 shrink-0" aria-hidden="true" />
         </button>
         <button
           type="button"
           onClick={cycleFilter}
-          className="flex items-center gap-2 rounded-full border border-white/10 bg-black/30 px-4 py-1.5 text-[10px] text-gray-200 transition-colors hover:bg-black/50"
+          className="flex cursor-pointer items-center justify-center gap-2 rounded-[14px] border border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-4 py-1.5 font-[family-name:var(--font-quicksand)] text-xs font-bold tracking-[0.02em] text-[#e6edf4] shadow-[0_4px_10px_rgba(0,0,0,0.25)] transition hover:brightness-110 sm:text-sm"
         >
-          {filterLabel} <span className="text-[7px]">▼</span>
+          <span>{filterLabel}</span>
+          <ChevronDown className="size-3.5 shrink-0" aria-hidden="true" />
         </button>
         <button
           type="button"
           onClick={() => setShowSearch((prev) => !prev)}
           aria-expanded={showSearch}
-          className="flex items-center gap-2 rounded-full border border-white/10 bg-black/30 px-5 py-1.5 text-[10px] text-gray-200 transition-colors hover:bg-black/50"
+          className="flex min-w-[140px] flex-1 cursor-pointer items-center justify-center gap-2 rounded-[14px] border border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-5 py-1.5 font-[family-name:var(--font-quicksand)] text-xs font-bold tracking-[0.02em] text-[#e6edf4] shadow-[0_4px_10px_rgba(0,0,0,0.25)] transition hover:brightness-110 sm:text-sm"
         >
-          Search <span>⚲</span>
+          <span>Search</span>
+          <Search className="size-3.5 shrink-0" aria-hidden="true" />
         </button>
       </div>
 
       {showSearch && (
-        <div className="relative z-10 mb-4 w-full">
+        <div className="relative z-10 mb-5 w-full max-w-[520px]">
           <input
             type="search"
             aria-label="Cari program"
@@ -141,62 +145,81 @@ export default function RegisterForm({ initialCourses }: RegisterFormProps) {
               setCurrentPage(1);
             }}
             placeholder="Cari pelatihan atau kompetisi..."
-            className="w-full rounded-xl border border-white/20 bg-black/30 px-4 py-2 text-xs text-white placeholder:text-gray-400 focus:border-white/50 focus:outline-none"
+            className="w-full rounded-[14px] border border-[#c6c6c6]/70 bg-[#12062b]/65 px-4 py-2.5 text-xs text-[#e6edf4] placeholder:text-[#e6edf4]/50 focus:border-[#e6edf4] focus:outline-none sm:text-sm"
           />
         </div>
       )}
 
       <div className="relative z-10 min-h-[380px] w-full">
         {currentCourses.length === 0 ? (
-          <p className="py-12 text-center font-mono text-xs text-gray-300">
+          <p className="py-12 text-center font-mono text-xs text-[#e6edf4]/80">
             Program tidak ditemukan.
           </p>
         ) : (
-          currentCourses.map((course) => (
-            <button
-              type="button"
-              key={course}
-              onClick={() => toggleCourse(course)}
-              className="mb-4 flex w-full cursor-pointer items-center justify-between rounded-xl border border-white/10 bg-white/5 p-4 text-left transition-colors hover:bg-white/10"
-            >
-              <span className="text-xs font-semibold tracking-wide text-white">{course}</span>
-              <span
-                className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2 border-white transition-colors ${
-                  selectedCourses.includes(course) ? "bg-white" : "bg-transparent"
+          currentCourses.map((course) => {
+            const isSelected = selectedCourses.includes(course);
+            return (
+              <button
+                type="button"
+                key={course}
+                onClick={() => toggleCourse(course)}
+                aria-pressed={isSelected}
+                className={`mb-4 flex w-full cursor-pointer items-center justify-between gap-4 rounded-[18px] border-[2.5px] border-[#c6c6c6] bg-[radial-gradient(ellipse_at_top_left,rgba(94,55,134,0.45),rgba(38,4,74,0.72))] px-5 py-4 text-left shadow-[0_0_32px_8px_rgba(49,5,95,0.45)] transition-all hover:brightness-110 sm:rounded-[20px] sm:px-7 sm:py-5 ${
+                  isSelected ? "ring-2 ring-[#e6edf4]/70" : ""
                 }`}
               >
-                {selectedCourses.includes(course) && (
-                  <svg className="h-4 w-4 text-[#1c0f3e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                  </svg>
-                )}
-              </span>
-            </button>
-          ))
+                <span className="font-[family-name:var(--font-montserrat)] text-sm font-semibold leading-[1.25] text-[#e6edf4] sm:text-[20px]">
+                  {course}
+                </span>
+                <span
+                  className={`flex size-8 shrink-0 items-center justify-center rounded-[10px] border border-black/15 bg-white shadow-sm transition-transform sm:size-10 sm:rounded-[12px] ${
+                    isSelected ? "scale-105" : ""
+                  }`}
+                >
+                  {isSelected && (
+                    <svg
+                      className="size-5 text-[#26044a] sm:size-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={3}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  )}
+                </span>
+              </button>
+            );
+          })
         )}
       </div>
 
-      <div className="relative z-10 mt-4 flex w-full items-center justify-between">
+      <div className="relative z-10 mt-4 flex w-full items-center justify-between gap-3">
         {safePage > 1 ? (
           <button
             type="button"
             onClick={() => setCurrentPage((p) => p - 1)}
-            className="relative z-10 flex h-12 items-center justify-center rounded-xl border-[1.2px] border-[#ebe6f0] bg-[#1e0339] px-6 font-mono text-[10px] font-bold tracking-wider text-[#ebe6f0] transition-transform hover:scale-105 sm:px-8"
+            className="relative z-10 flex h-10 cursor-pointer items-center justify-center rounded-[14px] border border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-4 font-[family-name:var(--font-montserrat)] text-xs font-semibold tracking-wider text-[#e6edf4] shadow-[0_4px_10px_rgba(0,0,0,0.25)] transition hover:brightness-110 sm:px-6"
           >
             BACK
           </button>
         ) : (
-          <div className="w-[84px]" />
+          <div className="w-[72px] sm:w-[92px]" />
         )}
 
         <button
           type="button"
           onClick={handleSubmit}
           disabled={selectedCourses.length === 0}
-          className={`relative z-10 flex h-10 items-center justify-center rounded-xl border-[1.2px] border-[#ebe6f0] bg-[#1e0339] px-8 font-mono text-xs font-bold tracking-[0.1em] text-[#ebe6f0] transition-all sm:px-10 ${
+          className={`relative z-10 flex h-12 min-w-[180px] items-center justify-center rounded-[16px] border-[2.5px] border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-8 font-[family-name:var(--font-montserrat)] text-lg font-semibold tracking-wider text-[#e6edf4] shadow-[0_0_16px_4px_rgba(1,29,62,0.36),inset_2px_4px_4px_rgba(0,0,0,0.25)] transition-all sm:min-w-[240px] sm:text-[24px] ${
             selectedCourses.length === 0
               ? "cursor-not-allowed opacity-50"
-              : "cursor-pointer shadow-[0_0_15px_rgba(30,3,57,0.5)] hover:scale-105"
+              : "cursor-pointer hover:scale-[1.02] hover:brightness-110"
           }`}
         >
           SUBMIT
@@ -206,12 +229,12 @@ export default function RegisterForm({ initialCourses }: RegisterFormProps) {
           <button
             type="button"
             onClick={() => setCurrentPage((p) => p + 1)}
-            className="relative z-10 flex h-12 items-center justify-center rounded-xl border-[1.2px] border-[#ebe6f0] bg-[#1e0339] px-6 font-mono text-[10px] font-bold tracking-wider text-[#ebe6f0] transition-transform hover:scale-105 sm:px-8"
+            className="relative z-10 flex h-10 cursor-pointer items-center justify-center rounded-[14px] border border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-4 font-[family-name:var(--font-montserrat)] text-xs font-semibold tracking-wider text-[#e6edf4] shadow-[0_4px_10px_rgba(0,0,0,0.25)] transition hover:brightness-110 sm:px-6"
           >
             NEXT
           </button>
         ) : (
-          <div className="w-[84px]" />
+          <div className="w-[72px] sm:w-[92px]" />
         )}
       </div>
     </section>
