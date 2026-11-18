@@ -208,12 +208,8 @@ export default function TeamMatchContainer() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center pb-24">
-      {/* Centered Glassmorphic Navbar */}
-      <TeamMatchHeader />
-
-      {/* Main Content Layout */}
-      <main className="relative flex flex-1 flex-col items-center justify-center w-full z-10 px-4 pt-24 sm:pt-28 md:pt-32">
+    <div className="relative flex flex-col items-center pb-12">
+      <div className="relative z-10 flex w-full flex-1 flex-col items-center justify-center pt-4">
         <AnimatePresence mode="wait">
           {mode === "create_join" ? (
             <motion.div
@@ -252,7 +248,7 @@ export default function TeamMatchContainer() {
             )
           )}
         </AnimatePresence>
-      </main>
+      </div>
 
       {/* Availability Modal */}
       <AnimatePresence>
@@ -273,19 +269,19 @@ export default function TeamMatchContainer() {
               pendingAction.type === "create"
                 ? "Create Team"
                 : pendingAction.type === "join"
-                ? "Join Team"
-                : pendingAction.type === "disband"
-                ? "Disband Team"
-                : "Leave Team"
+                  ? "Join Team"
+                  : pendingAction.type === "disband"
+                    ? "Disband Team"
+                    : "Leave Team"
             }
             message={
               pendingAction.type === "create"
                 ? `Are you sure you want to create the team "${pendingAction.payload.toUpperCase()}'S TEAM"?`
                 : pendingAction.type === "join"
-                ? `Are you sure you want to join the team "${teams[pendingAction.payload.toUpperCase()]?.name}" (Code: ${pendingAction.payload.toUpperCase()})?`
-                : pendingAction.type === "disband"
-                ? `Are you sure you want to disband the team "${teams[pendingAction.payload]?.name}"? This action cannot be undone.`
-                : `Are you sure you want to leave the team "${teams[pendingAction.payload]?.name}"?`
+                  ? `Are you sure you want to join the team "${teams[pendingAction.payload.toUpperCase()]?.name}" (Code: ${pendingAction.payload.toUpperCase()})?`
+                  : pendingAction.type === "disband"
+                    ? `Are you sure you want to disband the team "${teams[pendingAction.payload]?.name}"? This action cannot be undone.`
+                    : `Are you sure you want to leave the team "${teams[pendingAction.payload]?.name}"?`
             }
             onConfirm={() => {
               if (pendingAction.type === "create") {

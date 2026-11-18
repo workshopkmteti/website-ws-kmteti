@@ -6,7 +6,7 @@ import { trainings } from "@/data/trainings";
 
 export default function AttendanceDashboard() {
   return (
-    <div className="mx-auto flex w-full max-w-[1250px] flex-col gap-8 px-8 py-8">
+    <div className="mx-auto flex w-full max-w-[1250px] flex-col gap-6">
       <AttendanceHeader />
 
       <AttendanceCard />

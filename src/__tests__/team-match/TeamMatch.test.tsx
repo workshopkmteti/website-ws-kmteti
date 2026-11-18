@@ -20,7 +20,7 @@ describe("Team Match Page", () => {
   it("renders the header and main layout initially", () => {
     render(<TeamMatchPage />);
 
-    expect(screen.getByRole("img", { name: /^workshop$/i })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: /workshop kmteti ft ugm/i })).toBeInTheDocument();
 
     expect(screen.getByRole("heading", { name: /create \/ join team/i })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /team availability/i })).toBeInTheDocument();

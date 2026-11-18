@@ -34,7 +34,7 @@ describe("RegisterForm Component", () => {
     fireEvent.click(screen.getByRole("button", { name: /SUBMIT/i }));
 
     expect(pushMock).toHaveBeenCalledWith(
-      "/payment?courses=Pelatihan%20Genap%20-%20STM32",
+      "/course/payment?courses=Pelatihan%20Genap%20-%20STM32",
     );
   });
 

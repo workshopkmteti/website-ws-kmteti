@@ -32,7 +32,7 @@ export const COMPETITIONS: Competition[] = [
     event: "TETI Programming Week",
     dueAt: "2026-02-19T22:00:00+07:00",
     status: "Ongoing",
-    cta: { label: "REGISTER", href: "/register" },
+    cta: { label: "REGISTER", href: "/course/register" },
     about: ABOUT_PLACEHOLDER,
     guidebookUrl: GUIDEBOOK_PLACEHOLDER,
   },

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Background from "@/components/Background";
+import DashboardShell from "@/components/DashboardShell";
 import TeamMatchContainer from "@/features/team-match/components/TeamMatchContainer";
 
 export const metadata: Metadata = {
@@ -9,12 +9,8 @@ export const metadata: Metadata = {
 
 export default function TeamMatchPage() {
   return (
-    <div className="relative flex min-h-screen flex-col overflow-x-hidden">
-      {/* Decorative stars and gradients background */}
-      <Background />
-      
-      {/* Interactive team match state container */}
+    <DashboardShell activeHref="/team-match">
       <TeamMatchContainer />
-    </div>
+    </DashboardShell>
   );
 }

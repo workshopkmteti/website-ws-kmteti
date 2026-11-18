@@ -3,6 +3,7 @@
 
 import { useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import DashboardShell from "@/components/DashboardShell";
 import Background from "@/components/Background";
 import Logo from "@/components/LogoUpright";
 import { dummyAssignments } from "@/data/assignment";
@@ -114,15 +115,8 @@ export default function AssignmentDetailPage() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-[#17022C] text-white">
-      <Background />
-
-      <div className="relative z-10 mx-auto w-full max-w-[1440px] px-5 py-6 sm:px-8 lg:px-10">
-        {/* Header */}
-        <header className="mb-8 flex h-14 items-center justify-center rounded-2xl border border-[#C6C6C6]/30 bg-[#2A3559]/40 px-5 backdrop-blur-md">
-          <Logo className="h-auto w-[112px] max-w-full" />
-        </header>
-
+    <DashboardShell activeHref="/assignment">
+      <div className="relative z-10 mx-auto w-full max-w-[1440px]">
         {/* Back button */}
         <button
           onClick={() => router.push("/assignment")}
@@ -356,6 +350,6 @@ export default function AssignmentDetailPage() {
           </div>
         </section>
       </div>
-    </main>
+    </DashboardShell>
   );
 }

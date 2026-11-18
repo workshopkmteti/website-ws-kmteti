@@ -155,7 +155,7 @@ export default function DashboardPage() {
             tagline="Rise and shine to keep growing."
             eventTitle="Pelatihan Ganjil 2026"
             eventDesc="is now open for registration!"
-            eventHref="/register"
+            eventHref="/course/register"
           />
           <StatCardGrid cards={STAT_CARDS} />
           <div className="dashboard-panels">

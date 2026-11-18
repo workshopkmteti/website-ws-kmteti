@@ -35,7 +35,7 @@ describe("CompetitionPage", () => {
     render(<CompetitionPage />);
     expect(screen.getByRole("link", { name: "REGISTER" })).toHaveAttribute(
       "href",
-      "/register",
+      "/course/register",
     );
     expect(screen.getByRole("link", { name: "GO TO COMPETITION" })).toHaveAttribute(
       "href",
@@ -54,7 +54,7 @@ describe("CompetitionPage", () => {
 
   it("tells the user when nothing matches the search", () => {
     render(<CompetitionPage />);
-    fireEvent.change(screen.getByRole("searchbox"), { target: { value: "robotics" } });
+    fireEvent.change(screen.getByPlaceholderText("Search"), { target: { value: "robotics" } });
     expect(screen.getByText("No competitions found.")).toBeInTheDocument();
   });
 });

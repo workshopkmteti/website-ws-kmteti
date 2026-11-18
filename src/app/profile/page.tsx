@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import DashboardShell from "@/components/DashboardShell";
 import ProfileHeader from "@/components/profile/ProfileHeader";
 import SectionCard from "@/components/profile/SectionCard";
 import InputField from "@/components/profile/InputField";
@@ -37,7 +38,8 @@ export default function ProfilePage() {
             };
 
     return (
-        <main className="relative min-h-screen overflow-hidden bg-[#1A0033] px-6 py-10">
+        <DashboardShell activeHref="/profile">
+            <div className="relative">
             {/* Background Glow */}
             <div className="pointer-events-none absolute inset-0">
                 <div className="absolute -left-32 top-10 h-72 w-72 rounded-full bg-purple-600/30 blur-3xl" />
@@ -102,6 +104,7 @@ export default function ProfilePage() {
                     <SaveButton />
                 </div>
             </div>
-        </main>
+            </div>
+        </DashboardShell>
     );
 }

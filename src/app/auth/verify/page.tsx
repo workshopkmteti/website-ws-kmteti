@@ -21,7 +21,7 @@ export default function VerifyPage() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            router.push("/register");
+            router.push("/course/register");
           }}
           className="flex flex-col gap-7"
         >

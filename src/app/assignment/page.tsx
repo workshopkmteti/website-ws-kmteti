@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import DashboardShell from "@/components/DashboardShell";
 import Background from "@/components/Background";
 import Mascot from "@/components/Mascot";
 import Logo from "@/components/LogoUpright";
@@ -108,14 +109,8 @@ export default function AssignmentPage() {
   }, [sortBy, filterBy, searchQuery]);
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-[#1e0339] text-white">
-      <Background />
-
-      <div className="relative z-30 mx-auto w-full max-w-6xl px-6 py-10">
-        <header className="mb-8 flex h-12 items-center justify-center rounded-2xl border border-white/20 bg-white/10 shadow-lg backdrop-blur-md">
-          <Logo className="block h-auto w-[122px] max-w-full" />
-        </header>
-
+    <DashboardShell activeHref="/assignment">
+      <div className="relative z-30 mx-auto w-full max-w-6xl">
         <section className="mb-8 flex items-center justify-center gap-5">
           <div className="h-24 w-24 shrink-0 sm:h-28 sm:w-28">
             <Mascot
@@ -177,6 +172,6 @@ export default function AssignmentPage() {
           </div>
         )}
       </section>
-    </main>
+    </DashboardShell>
   );
 }

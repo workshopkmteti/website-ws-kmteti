@@ -82,7 +82,7 @@ export default function RegisterForm() {
   const handleSubmit = () => {
     if (selectedCourses.length === 0) return;
     const query = encodeURIComponent(selectedCourses.join(","));
-    router.push(`/payment?courses=${query}`);
+    router.push(`/course/payment?courses=${query}`);
   };
 
   const sortLabel =

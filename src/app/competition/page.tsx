@@ -3,8 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import Background from "@/components/Background";
-import Header from "@/components/Header";
+import DashboardShell from "@/components/DashboardShell";
 import Mascot from "@/components/Mascot";
 import SearchControls, { PILL_CLASS, type SearchState } from "@/components/SearchControls";
 import {
@@ -100,16 +99,14 @@ export default function CompetitionPage() {
   );
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden">
-      <Background />
-      <Header />
-      <Mascot
-        pose="happy"
-        className="pointer-events-none absolute top-40 -left-24 hidden w-80 lg:block"
-      />
+    <DashboardShell activeHref="/competition">
+      <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center gap-6 pt-4 pb-12 sm:gap-8">
+        <Mascot
+          pose="happy"
+          className="pointer-events-none absolute top-16 -left-24 hidden w-64 lg:block"
+        />
 
-      <main className="relative mx-auto flex w-[min(1531px,94%)] flex-col items-center gap-6 pt-24 pb-16 sm:gap-8 sm:pt-32 sm:pb-20 lg:pt-40 lg:pb-24">
-        <h1 className="text-center text-2xl font-bold text-white sm:text-4xl md:text-5xl lg:text-[64px]">
+        <h1 className="text-center text-2xl font-bold text-white sm:text-4xl md:text-5xl lg:text-[56px]">
           YOUR COMPETITION, JOHN!
         </h1>
 
@@ -146,7 +143,7 @@ export default function CompetitionPage() {
             </motion.p>
           )}
         </div>
-      </main>
-    </div>
+      </div>
+    </DashboardShell>
   );
 }

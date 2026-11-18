@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import type { NavItem } from "@/types/dashboard";
 
@@ -24,7 +23,7 @@ const IMAGES = {
 
 const NAV_PRIMARY: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", iconSrc: IMAGES.dashboard, isActive: true },
-  { label: "Pelatihan", href: "/register", iconSrc: IMAGES.pelatihan },
+  { label: "Pelatihan", href: "/course/register", iconSrc: IMAGES.pelatihan },
   { label: "Materi", href: "/materials", iconSrc: IMAGES.materi },
   { label: "Absensi", href: "/attendance", iconSrc: IMAGES.jadwal },
   { label: "Penugasan", href: "/assignment", iconSrc: IMAGES.penugasan },
@@ -71,8 +70,6 @@ function NavSection({ items, activeHref }: { items: NavItem[]; activeHref: strin
 }
 
 export default function Sidebar({ activeHref, userName, userRole, userInitial, isOpen, onClose }: SidebarProps) {
-  const router = useRouter();
-
   return (
     <>
       {isOpen && (
@@ -127,15 +124,14 @@ export default function Sidebar({ activeHref, userName, userRole, userInitial, i
             <div className="h-2 w-2 shrink-0 rounded-full bg-(--accent-green)" />
           </div>
 
-          <button
-            type="button"
-            onClick={() => router.push("/auth/login")}
+          <Link
+            href="/auth/login"
             className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-white/90 transition-colors hover:bg-white/5"
             aria-label="Logout"
           >
             <Image src={IMAGES.logout} alt="" width={20} height={20} className="h-5 w-5" aria-hidden="true" />
             <span>Logout</span>
-          </button>
+          </Link>
         </div>
       </aside>
     </>
