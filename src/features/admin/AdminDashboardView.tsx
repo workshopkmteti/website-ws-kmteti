@@ -15,10 +15,10 @@ import {
 } from "@/features/lms/eligibility";
 import type { DeletableTable } from "@/types/backend";
 
-type PaymentStatus = "Menunggu" | "Terkonfirmasi" | "Ditolak";
+export type PaymentStatus = "Menunggu" | "Terkonfirmasi" | "Ditolak";
 type AdminTab = "participants" | "attendance" | "materials" | "backup";
 
-interface ParticipantRow {
+export interface ParticipantRow {
   id: string;
   name: string;
   email: string;
@@ -57,9 +57,17 @@ const DELETE_TARGET_MAP: Record<string, DeletableTable> = {
 
 const DELETE_TARGETS = Object.keys(DELETE_TARGET_MAP);
 
-export default function AdminDashboardView() {
+type AdminDashboardViewProps = {
+  initialParticipants?: ParticipantRow[];
+};
+
+export default function AdminDashboardView({ initialParticipants }: AdminDashboardViewProps) {
   const [activeTab, setActiveTab] = useState<AdminTab>("participants");
-  const [participants, setParticipants] = useState<ParticipantRow[]>(INITIAL_PARTICIPANTS);
+  const [participants, setParticipants] = useState<ParticipantRow[]>(
+    initialParticipants && initialParticipants.length > 0
+      ? initialParticipants
+      : INITIAL_PARTICIPANTS,
+  );
   const [materialTitle, setMaterialTitle] = useState("");
   const [meetUrl, setMeetUrl] = useState("");
   const [materialFile, setMaterialFile] = useState<File | null>(null);

@@ -57,15 +57,23 @@ const INITIAL_MATERIALS: TrainingMaterial[] = [
   },
 ];
 
-const PROGRAMS = ["All", ...new Set(INITIAL_MATERIALS.map((m) => m.program))];
+type MaterialsViewProps = {
+  initialMaterials?: TrainingMaterial[];
+};
 
-export default function MaterialsView() {
+export default function MaterialsView({ initialMaterials }: MaterialsViewProps) {
+  const sourceMaterials =
+    initialMaterials && initialMaterials.length > 0 ? initialMaterials : INITIAL_MATERIALS;
+  const programs = useMemo(
+    () => ["All", ...new Set(sourceMaterials.map((m) => m.program))],
+    [sourceMaterials],
+  );
   const [selectedProgram, setSelectedProgram] = useState("All");
 
   const visibleMaterials = useMemo(() => {
-    if (selectedProgram === "All") return INITIAL_MATERIALS;
-    return INITIAL_MATERIALS.filter((m) => m.program === selectedProgram);
-  }, [selectedProgram]);
+    if (selectedProgram === "All") return sourceMaterials;
+    return sourceMaterials.filter((m) => m.program === selectedProgram);
+  }, [selectedProgram, sourceMaterials]);
 
   return (
     <section className="flex flex-col gap-6 text-white">
@@ -80,7 +88,7 @@ export default function MaterialsView() {
           onChange={(e) => setSelectedProgram(e.target.value)}
           className="h-10 rounded-[10px] border border-white/10 bg-[#110F2E] px-4 font-mono text-xs text-white transition-colors focus:border-[#7C3AED] focus:outline-none"
         >
-          {PROGRAMS.map((program) => (
+          {programs.map((program) => (
             <option key={program} value={program}>
               {program}
             </option>

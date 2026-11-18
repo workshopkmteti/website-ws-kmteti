@@ -28,8 +28,14 @@ const CATEGORIES = [
 
 type SortOrder = "default" | "desc" | "asc";
 
-export default function RegisterForm() {
+type RegisterFormProps = {
+  initialCourses?: string[];
+};
+
+export default function RegisterForm({ initialCourses }: RegisterFormProps) {
   const router = useRouter();
+  const sourceCourses =
+    initialCourses && initialCourses.length > 0 ? initialCourses : COURSES;
   const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOrder, setSortOrder] = useState<SortOrder>("default");
@@ -39,7 +45,7 @@ export default function RegisterForm() {
 
   const filteredCourses = useMemo(() => {
     const needle = searchQuery.trim().toLowerCase();
-    const list = COURSES.filter((course) => {
+    const list = sourceCourses.filter((course) => {
       const matchesCategory =
         selectedCategory === "All" || course.startsWith(selectedCategory);
       const matchesQuery = !needle || course.toLowerCase().includes(needle);
@@ -49,7 +55,7 @@ export default function RegisterForm() {
     if (sortOrder === "asc") return [...list].sort((a, b) => a.localeCompare(b));
     if (sortOrder === "desc") return [...list].sort((a, b) => b.localeCompare(a));
     return list;
-  }, [searchQuery, selectedCategory, sortOrder]);
+  }, [searchQuery, selectedCategory, sortOrder, sourceCourses]);
 
   const itemsPerPage = 5;
   const totalPages = Math.max(1, Math.ceil(filteredCourses.length / itemsPerPage));

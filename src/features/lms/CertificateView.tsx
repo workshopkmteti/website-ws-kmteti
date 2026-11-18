@@ -12,14 +12,20 @@ import {
 
 type CertificateViewProps = {
   registrationId?: string;
+  programTitle?: string;
+  initialSubmittedUrl?: string | null;
+  initialAbsences?: number;
 };
 
 export default function CertificateView({
   registrationId = "reg-default",
+  programTitle = "IMAGE PROCESSING",
+  initialSubmittedUrl = null,
+  initialAbsences = 1,
 }: CertificateViewProps) {
-  const [projectUrl, setProjectUrl] = useState("");
-  const [submittedUrl, setSubmittedUrl] = useState<string | null>(null);
-  const [absences] = useState(1);
+  const [projectUrl, setProjectUrl] = useState(initialSubmittedUrl ?? "");
+  const [submittedUrl, setSubmittedUrl] = useState<string | null>(initialSubmittedUrl);
+  const [absences] = useState(initialAbsences);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
@@ -106,7 +112,7 @@ export default function CertificateView({
                 )}
               </div>
               <div>
-                <p className="font-sans text-sm font-bold text-white">IMAGE PROCESSING</p>
+                <p className="font-sans text-sm font-bold text-white">{programTitle}</p>
                 <p className="font-mono text-xs text-[#9CA3AF]">
                   {eligible ? "Siap diunduh" : "Belum memenuhi syarat"}
                 </p>
