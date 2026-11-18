@@ -17,7 +17,6 @@ const jetbrainsMono = JetBrains_Mono({
 const quicksand = Quicksand({
   variable: "--font-quicksand",
   subsets: ["latin"],
-  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {

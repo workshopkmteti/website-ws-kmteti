@@ -54,19 +54,21 @@ export default function CertificateView({
   };
 
   return (
-    <section className="flex flex-col gap-6 text-white">
+    <section className="flex flex-col gap-6 text-[#e6edf4]">
       <header>
-        <h1 className="font-sans text-2xl font-bold tracking-tight text-white sm:text-3xl">
+        <h1 className="font-[family-name:var(--font-montserrat)] text-2xl font-bold tracking-wide text-[#e6edf4] uppercase sm:text-3xl">
           Sertifikat
         </h1>
       </header>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <article className="flex flex-col justify-between gap-5 rounded-[10px] border border-white/6 bg-[#110F2E] p-6">
+        <article className="flex flex-col justify-between gap-5 rounded-[24px] border-2 border-[#c6c6c6]/80 bg-[linear-gradient(142deg,rgba(198,198,198,0.22)_4%,rgba(94,55,134,0.42)_90%)] p-6 shadow-[0_12px_36px_rgba(12,4,28,0.45)] backdrop-blur-md">
           <div className="flex flex-col gap-4">
-            <h2 className="font-sans text-lg font-bold text-white">Final Project</h2>
+            <h2 className="font-[family-name:var(--font-montserrat)] text-lg font-semibold text-[#e6edf4]">
+              Final Project
+            </h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <label className="flex flex-col gap-2 font-mono text-xs text-[#9CA3AF]">
+              <label className="flex flex-col gap-2 font-[family-name:var(--font-quicksand)] text-xs font-bold text-[#e6edf4]/85">
                 Link Final Project
                 <input
                   type="url"
@@ -74,7 +76,7 @@ export default function CertificateView({
                   value={projectUrl}
                   onChange={(e) => setProjectUrl(e.target.value)}
                   placeholder="https://github.com/username/project"
-                  className="h-11 rounded-[10px] border border-white/10 bg-[#0D0B24] px-4 text-sm text-white placeholder:text-[#9CA3AF]/50 focus:border-[#7C3AED] focus:outline-none"
+                  className="h-11 rounded-[14px] border border-[#c6c6c6]/50 bg-[#12062b]/65 px-4 font-mono text-sm font-normal text-[#e6edf4] placeholder:text-[#e6edf4]/40 focus:border-[#e6edf4] focus:outline-none"
                 />
               </label>
 
@@ -93,7 +95,7 @@ export default function CertificateView({
               <button
                 type="submit"
                 disabled={pending}
-                className="h-11 cursor-pointer rounded-[10px] bg-[#7C3AED] px-5 font-mono text-xs font-bold text-white transition-all hover:bg-[#6B21A8] active:scale-[0.98] disabled:opacity-60"
+                className="h-11 cursor-pointer rounded-[14px] border-[1.5px] border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-5 font-[family-name:var(--font-montserrat)] text-xs font-semibold tracking-wider text-[#e6edf4] shadow-[0_0_14px_2px_rgba(1,29,62,0.36),inset_1px_2px_3px_rgba(0,0,0,0.25)] transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-60"
               >
                 {pending ? "Menyimpan..." : "Kumpulkan Final Project"}
               </button>
@@ -101,10 +103,10 @@ export default function CertificateView({
           </div>
         </article>
 
-        <article className="flex flex-col justify-between gap-5 rounded-[10px] border border-white/6 bg-[#110F2E] p-6">
-          <div className="flex items-center justify-between rounded-[10px] border border-white/6 bg-[#0D0B24] p-4">
+        <article className="flex flex-col justify-between gap-5 rounded-[24px] border-2 border-[#c6c6c6]/80 bg-[linear-gradient(142deg,rgba(198,198,198,0.22)_4%,rgba(94,55,134,0.42)_90%)] p-6 shadow-[0_12px_36px_rgba(12,4,28,0.45)] backdrop-blur-md">
+          <div className="flex items-center justify-between rounded-[14px] border border-[#c6c6c6]/45 bg-[#12062b]/60 p-4">
             <div className="flex items-center gap-3">
-              <div className="flex size-11 items-center justify-center rounded-[10px] bg-[#7C3AED]/20 text-white">
+              <div className="flex size-11 items-center justify-center rounded-[12px] border border-[#c6c6c6]/40 bg-[#26044a]/80 text-[#e6edf4]">
                 {eligible ? (
                   <Award className="size-5 text-[#10b981]" />
                 ) : (
@@ -112,8 +114,10 @@ export default function CertificateView({
                 )}
               </div>
               <div>
-                <p className="font-sans text-sm font-bold text-white">{programTitle}</p>
-                <p className="font-mono text-xs text-[#9CA3AF]">
+                <p className="font-[family-name:var(--font-montserrat)] text-sm font-semibold text-[#e6edf4]">
+                  {programTitle}
+                </p>
+                <p className="font-[family-name:var(--font-quicksand)] text-xs text-[#e6edf4]/70">
                   {eligible ? "Siap diunduh" : "Belum memenuhi syarat"}
                 </p>
               </div>
@@ -121,14 +125,14 @@ export default function CertificateView({
             {eligible && <CheckCircle2 className="size-5 text-[#10b981]" aria-hidden="true" />}
           </div>
 
-          <ul className="flex flex-col gap-2.5 font-mono text-xs">
-            <li className="flex items-center justify-between rounded-[10px] border border-white/6 bg-[#0D0B24] px-4 py-3">
+          <ul className="flex flex-col gap-2.5 font-[family-name:var(--font-quicksand)] text-xs font-bold">
+            <li className="flex items-center justify-between rounded-[14px] border border-[#c6c6c6]/45 bg-[#12062b]/60 px-4 py-3">
               <span>Final Project</span>
               <span className={submittedUrl ? "text-[#10b981]" : "text-[#FACC15]"}>
                 {submittedUrl ? "✓ Terkumpul" : "✗ Belum"}
               </span>
             </li>
-            <li className="flex items-center justify-between rounded-[10px] border border-white/6 bg-[#0D0B24] px-4 py-3">
+            <li className="flex items-center justify-between rounded-[14px] border border-[#c6c6c6]/45 bg-[#12062b]/60 px-4 py-3">
               <span>Absen</span>
               <span className={absences <= MAX_ABSENCES_ALLOWED ? "text-[#10b981]" : "text-rose-300"}>
                 {absences}/{TOTAL_SESSIONS} (maks {MAX_ABSENCES_ALLOWED})
@@ -146,10 +150,10 @@ export default function CertificateView({
                   `/api/certificate?registrationId=${encodeURIComponent(registrationId)}`,
                 );
               }}
-              className={`h-11 rounded-[10px] border font-mono text-xs font-bold transition-all ${
+              className={`h-11 rounded-[14px] border-[1.5px] font-[family-name:var(--font-montserrat)] text-xs font-semibold tracking-wider transition-all ${
                 eligible
-                  ? "cursor-pointer border-[#7C3AED] bg-[#7C3AED] text-white hover:bg-[#6B21A8] active:scale-[0.98]"
-                  : "cursor-not-allowed border-white/10 bg-[#0D0B24] text-[#9CA3AF]/50"
+                  ? "cursor-pointer border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] text-[#e6edf4] shadow-[0_0_14px_2px_rgba(1,29,62,0.36),inset_1px_2px_3px_rgba(0,0,0,0.25)] hover:brightness-110 active:scale-[0.98]"
+                  : "cursor-not-allowed border-[#c6c6c6]/30 bg-[#12062b]/50 text-[#e6edf4]/40"
               }`}
             >
               Unduh Sertifikat

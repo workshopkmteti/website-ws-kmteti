@@ -76,9 +76,9 @@ export default function MaterialsView({ initialMaterials }: MaterialsViewProps) 
   }, [selectedProgram, sourceMaterials]);
 
   return (
-    <section className="flex flex-col gap-6 text-white">
+    <section className="flex flex-col gap-6 text-[#e6edf4]">
       <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="font-sans text-2xl font-bold tracking-tight text-white sm:text-3xl">
+        <h1 className="font-[family-name:var(--font-montserrat)] text-2xl font-bold tracking-wide text-[#e6edf4] uppercase sm:text-3xl">
           Materi &amp; Google Meet
         </h1>
 
@@ -86,33 +86,37 @@ export default function MaterialsView({ initialMaterials }: MaterialsViewProps) 
           aria-label="Filter program"
           value={selectedProgram}
           onChange={(e) => setSelectedProgram(e.target.value)}
-          className="h-10 rounded-[10px] border border-white/10 bg-[#110F2E] px-4 font-mono text-xs text-white transition-colors focus:border-[#7C3AED] focus:outline-none"
+          className="h-10 cursor-pointer rounded-[14px] border border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-4 font-[family-name:var(--font-quicksand)] text-xs font-bold text-[#e6edf4] shadow-[0_4px_10px_rgba(0,0,0,0.25)] focus:outline-none"
         >
           {programs.map((program) => (
-            <option key={program} value={program}>
+            <option key={program} value={program} className="bg-[#172b59] text-[#e6edf4]">
               {program}
             </option>
           ))}
         </select>
       </header>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-5 md:grid-cols-2">
         {visibleMaterials.map((item) => (
           <article
             key={item.id}
-            className="flex flex-col justify-between gap-5 rounded-[10px] border border-white/6 bg-[#110F2E] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#7C3AED]/50"
+            className="flex flex-col justify-between gap-5 rounded-[24px] border-2 border-[#c6c6c6]/80 bg-[linear-gradient(142deg,rgba(198,198,198,0.22)_4%,rgba(94,55,134,0.42)_90%)] p-6 shadow-[0_12px_36px_rgba(12,4,28,0.45)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-[#c6c6c6]"
           >
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between gap-2">
-                <span className="rounded-full border border-[#6B21A8]/50 bg-[#7C3AED]/20 px-3 py-1 font-mono text-[11px] font-semibold text-[#C4B5FD]">
+                <span className="rounded-[10px] border border-[#c6c6c6]/50 bg-[#26044a]/70 px-3 py-1 font-[family-name:var(--font-quicksand)] text-xs font-bold text-[#e6edf4]">
                   {item.program}
                 </span>
-                <span className="font-mono text-xs text-[#9CA3AF]">
+                <span className="font-mono text-xs text-[#e6edf4]/70">
                   Sesi {item.session} · {item.fileSizeLabel}
                 </span>
               </div>
-              <h2 className="font-sans text-base font-bold text-white">{item.title}</h2>
-              <p className="font-mono text-xs text-[#9CA3AF]">{item.date}</p>
+              <h2 className="font-[family-name:var(--font-montserrat)] text-base font-semibold text-[#e6edf4] sm:text-lg">
+                {item.title}
+              </h2>
+              <p className="font-[family-name:var(--font-quicksand)] text-xs font-medium text-[#e6edf4]/75">
+                {item.date}
+              </p>
             </div>
 
             <div className="flex flex-wrap gap-3">
@@ -120,7 +124,7 @@ export default function MaterialsView({ initialMaterials }: MaterialsViewProps) 
                 href={item.meetUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 flex-1 items-center justify-center gap-2 rounded-[10px] bg-[#7C3AED] px-4 font-mono text-xs font-semibold text-white transition-all hover:bg-[#6B21A8] active:scale-[0.98]"
+                className="flex h-10 flex-1 items-center justify-center gap-2 rounded-[14px] border-[1.5px] border-[#c6c6c6] bg-gradient-to-b from-[#2a4580] via-[#172b59] to-[#0c1836] px-4 font-[family-name:var(--font-montserrat)] text-xs font-semibold tracking-wide text-[#e6edf4] shadow-[0_0_14px_2px_rgba(1,29,62,0.36),inset_1px_2px_3px_rgba(0,0,0,0.25)] transition-all hover:brightness-110 active:scale-[0.98]"
               >
                 <Video className="size-4 shrink-0" aria-hidden="true" />
                 Gabung Google Meet
@@ -129,7 +133,7 @@ export default function MaterialsView({ initialMaterials }: MaterialsViewProps) 
                 href={item.driveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 flex-1 items-center justify-center gap-2 rounded-[10px] border border-white/10 bg-[#0D0B24] px-4 font-mono text-xs font-semibold text-[#C4B5FD] transition-all hover:border-white/25 hover:bg-white/5 active:scale-[0.98]"
+                className="flex h-10 flex-1 items-center justify-center gap-2 rounded-[14px] border border-[#c6c6c6]/70 bg-[#12062b]/65 px-4 font-[family-name:var(--font-montserrat)] text-xs font-semibold tracking-wide text-[#e6edf4] transition-all hover:bg-[#1e0b42] active:scale-[0.98]"
               >
                 <FileText className="size-4 shrink-0" aria-hidden="true" />
                 Buka Materi

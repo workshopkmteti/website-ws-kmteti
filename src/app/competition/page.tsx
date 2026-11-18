@@ -101,14 +101,15 @@ export default function CompetitionPage() {
   return (
     <DashboardShell activeHref="/competition">
       <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center gap-6 pt-4 pb-12 sm:gap-8">
-        <Mascot
-          pose="happy"
-          className="pointer-events-none absolute top-16 -left-24 hidden w-64 lg:block"
-        />
-
-        <h1 className="text-center text-2xl font-bold text-white sm:text-4xl md:text-5xl lg:text-[56px]">
-          YOUR COMPETITION, JOHN!
-        </h1>
+        <div className="flex items-center justify-center gap-3">
+          <Mascot
+            pose="happy"
+            className="pointer-events-none hidden h-16 w-20 shrink-0 sm:block"
+          />
+          <h1 className="text-center font-[family-name:var(--font-montserrat)] text-2xl font-bold text-white sm:text-4xl md:text-5xl lg:text-[52px]">
+            YOUR COMPETITION, JOHN!
+          </h1>
+        </div>
 
         <SearchControls
           state={search}
