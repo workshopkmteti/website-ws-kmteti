@@ -60,12 +60,16 @@ export async function verifyPaymentAction(
       .single();
 
     if (participant?.email) {
-      await sendRegistrationConfirmedEmail({
-        to: participant.email,
-        participantName: participant.full_name || "Peserta",
-        programTitle: "Workshop KMTETI",
-        whatsappGroupUrl: process.env.DEFAULT_WHATSAPP_GROUP_URL ?? "https://chat.whatsapp.com/",
-      });
+      try {
+        await sendRegistrationConfirmedEmail({
+          to: participant.email,
+          participantName: participant.full_name || "Peserta",
+          programTitle: "Workshop KMTETI",
+          whatsappGroupUrl: process.env.DEFAULT_WHATSAPP_GROUP_URL ?? "https://chat.whatsapp.com/",
+        });
+      } catch {
+        // Email delivery is skipped gracefully until SMTP/SendGrid credentials are configured.
+      }
     }
   }
 
